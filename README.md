@@ -1,5 +1,5 @@
 # myPod - Application de Gestion du Diabète
-myPod est une application de gestion du diabète en Bluetooth, conçue pour aider à suivre ses données et à prendre des décisions éclairées concernant votre traitement du diabète. Cette application est en développement en utilisant le framework Flutter.
+myPod est une application mobile de gestion du diabète en Bluetooth, conçue pour aider à suivre ses données et à prendre des décisions éclairées concernant votre traitement du diabète. Cette application est en développement en utilisant le framework Flutter.
 
 ## Fonctionnalités clés
 
