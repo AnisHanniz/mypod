@@ -1,16 +1,16 @@
-# mypod
+# myPod - Application de Gestion du Diabète
+myPod est une application de gestion du diabète en Bluetooth, conçue pour aider à suivre ses données et à prendre des décisions éclairées concernant votre traitement du diabète. Cette application est en développement en utilisant le framework Flutter.
 
-A new Flutter project.
+## Fonctionnalités clés
 
-## Getting Started
+myPod propose plusieurs fonctionnalités essentielles pour gérer votre diabète :
 
-This project is a starting point for a Flutter application.
+Suivi des Informations du Pod : L'application récupère et affiche les informations de votre Pod, notamment les données sur les bolus et d'autres informations pertinentes.
 
-A few resources to get you started if this is your first Flutter project:
+Vue d'Ensemble : La page d'accueil de l'application vous offre une vue d'ensemble de vos données diabétiques, présentées de manière claire et personnalisée. Vous pouvez facilement visualiser les informations les plus importantes.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Gestion des Bolus : Vous pouvez enregistrer et gérer vos bolus en utilisant l'icône de flacon de laboratoire. Cela vous permet de contrôler votre insuline rapidement et efficacement.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Historique : Accédez à un historique complet de vos données diabétiques, ce qui facilite le suivi de votre progression et la prise de décisions basées sur des données.
+
+Connectivité Bluetooth : L'application est compatible avec les dispositifs médicaux en Bluetooth, permettant de connecter votre Pod pour un suivi en temps réel.
