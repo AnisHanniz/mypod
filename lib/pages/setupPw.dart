@@ -1,3 +1,4 @@
+import 'package:mypod/models/bluetooth_manager.dart';
 import 'package:mypod/pages/authManager.dart';
 import 'package:mypod/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,10 @@ class _SetupPasswordPageState extends State<SetupPasswordPage> {
                   // Passwords match, save the password and proceed
                   AuthManager().setPassword(password);
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => HomePage()),
+                    MaterialPageRoute(
+                        builder: (context) => HomePage(
+                              bluetoothManager: BluetoothManager(),
+                            )),
                   );
                 } else {
                   // Passwords do not match, display an error message

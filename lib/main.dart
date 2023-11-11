@@ -1,3 +1,4 @@
+import 'package:mypod/models/bluetooth_manager.dart';
 import 'package:mypod/pages/authManager.dart';
 import 'package:mypod/pages/home.dart';
 import 'package:mypod/pages/setupPw.dart';
@@ -18,9 +19,20 @@ class MyApp extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            // Handle error when authentication fails
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
           } else {
             final isUserAuthenticated = snapshot.data ?? false;
-            return isUserAuthenticated ? HomePage() : SetupPasswordPage();
+            final BluetoothManager bluetoothManager =
+                BluetoothManager(); // Create an instance
+            return isUserAuthenticated
+                ? HomePage(
+                    bluetoothManager: bluetoothManager,
+                  )
+                : SetupPasswordPage();
           }
         },
       ),
