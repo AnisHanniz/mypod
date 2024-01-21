@@ -17,7 +17,7 @@ class _SetupPasswordPageState extends State<SetupPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Password Setup'),
+        title: Text('Sécurité : '),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -25,7 +25,7 @@ class _SetupPasswordPageState extends State<SetupPasswordPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Please set up your password.',
+              'Veuillez entrer votre Mot de Passe',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -36,27 +36,27 @@ class _SetupPasswordPageState extends State<SetupPasswordPage> {
               controller: passwordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
+                labelText: 'Mot de Passe',
+                hintText: 'Entrez votre Mot de Passe',
               ),
             ),
             TextField(
               controller: confirmPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: 'Confirm Password',
-                hintText: 'Confirm your password',
+                labelText: 'Confirmation Mot de Passe',
+                hintText: 'Confirmez votre Mot de Passe',
               ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Implement your password setup logic here
+                // Logique setup password à implémenter
                 String password = passwordController.text;
                 String confirmPassword = confirmPasswordController.text;
 
                 if (password == confirmPassword) {
-                  // Passwords match, save the password and proceed
+                  // Tout est bon
                   AuthManager().setPassword(password);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
@@ -65,15 +65,16 @@ class _SetupPasswordPageState extends State<SetupPasswordPage> {
                             )),
                   );
                 } else {
-                  // Passwords do not match, display an error message
+                  // erreur, les mots de passes ne match pas
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Passwords do not match'),
+                      content:
+                          Text('Vos mots de passe ne sont pas identiques.'),
                     ),
                   );
                 }
               },
-              child: Text('Set Password'),
+              child: Text('Setup Mot de Passe'),
             ),
           ],
         ),

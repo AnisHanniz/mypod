@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:mypod/models/bluetooth_manager.dart';
 import 'package:mypod/models/infos_pod.dart';
@@ -17,11 +16,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<InfosPod> infos = [];
+  List<InfosPod> topInfos = []; // Pour les éléments en haut
+  List<InfosPod> bottomInfos = []; // Pour les éléments en bas
   double insulinRemaining = 200.0;
-  BasalProfile basalProfile =
-      BasalProfile([]); // Initialise ici la variable basalProfile
-
+  BasalProfile basalProfile = BasalProfile([]); // Initialiser ici basalProfile
+  Timer? _timer;
   double calculateBasalInsulinToAdminister() {
     final now = TimeOfDay.now();
     final basalRate = basalProfile
@@ -29,29 +28,44 @@ class _HomePageState extends State<HomePage> {
     return basalRate;
   }
 
+  var MONTHS = [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Avr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Aou",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+
   // Fonction pour administrer un bolus
   void administerBolus() {
-    // Ici, vous pouvez définir la logique pour le bolus
     // Par exemple, récupérer la quantité de bolus à administrer
 
-    double bolusAmount = 5.0; // Remplacez ceci par la valeur réelle du bolus
+    double bolusAmount = 5.0;
+    // A remplacer par la valeur réelle du bolus
     // Envoyer la commande de bolus via BluetoothManager
     widget.bluetoothManager.administerBolus(bolusAmount);
 
-    // Reducing the remaining insulin after administering the bolus
+    // Mise à jour de la quantité restante
     setState(() {
       insulinRemaining -= bolusAmount;
     });
   }
 
-  // Méthode pour afficher un dialogue pour saisir la quantité du bolus
+  // dialogue pour saisir la quantité du bolus
   Future<void> showBolusInputDialog() async {
     double bolusAmount = 0.0;
     await showDialog<double>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Entrez la quantité du bolus'),
+          title: const Text('Entrez la quantité du bolus'),
           content: TextField(
             keyboardType: TextInputType.numberWithOptions(decimal: true),
             onChanged: (value) {
@@ -89,7 +103,7 @@ class _HomePageState extends State<HomePage> {
             },
           );
         } else if (insulinRemaining >= value) {
-          // Assez d'insuline, administrez le bolus
+          // Assez d'insuline, administration du bolus
           widget.bluetoothManager.administerBolus(value);
           setState(() {
             insulinRemaining -= value;
@@ -102,7 +116,7 @@ class _HomePageState extends State<HomePage> {
               return AlertDialog(
                 title: Text('Pas assez d\'insuline restante'),
                 content: Text(
-                    'L\'insuline restante n\'est pas suffisante pour ce bolus.'),
+                    'L\'insuline restante n\'est pas suffisante pour un bolus.'),
                 actions: <Widget>[
                   TextButton(
                     onPressed: () {
@@ -120,45 +134,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getInfosPod() {
-    infos = InfosPod.getInfosPod();
+    // Résumé général et profil basal actif pour le haut
+    topInfos = [
+      InfosPod.getInfosPod(0).first,
+      InfosPod.getInfosPod(1).first,
+    ];
+
+    // État du pod et dernier bolus pour le bas
+    bottomInfos = [
+      InfosPod.getInfosPod(2).first, // État du pod
+      InfosPod.getInfosPod(3).first, // Dernier bolus
+    ];
   }
 
   @override
   void initState() {
     super.initState();
     _getInfosPod();
-    const interval = Duration(minutes: 5); // Changer l'intervalle si nécessaire
-    Timer.periodic(interval, (Timer t) {
-      final basalInsulin = calculateBasalInsulinToAdminister();
-      widget.bluetoothManager.administerBasalInsulin(basalInsulin);
-      setState(() {
-        insulinRemaining -= basalInsulin;
-      });
+    const interval = Duration(minutes: 5);
+    _timer = Timer.periodic(interval, (Timer t) {
+      if (mounted) {
+        final basalInsulin = calculateBasalInsulinToAdminister();
+        setState(() {
+          insulinRemaining -= basalInsulin;
+        });
+      }
     });
   }
 
   @override
-  Widget build(BuildContext context) {
-    var MONTHS = [
-      "Jan",
-      "Fev",
-      "Mar",
-      "Avr",
-      "Mai",
-      "Jun",
-      "Jul",
-      "Aou",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
+  void dispose() {
+    _timer?.cancel(); // Annule le Timer lorsque le widget est détruit
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBar(MONTHS),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
         children: [
           const Padding(
             padding: EdgeInsets.all(25),
@@ -167,28 +183,49 @@ class _HomePageState extends State<HomePage> {
                 'myPod',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
             ),
-          ),
+          ), // Intégration du widget de graphique ici
           Container(
-            margin: const EdgeInsets.all(10),
-            height: 170,
-            color: const Color.fromARGB(255, 255, 255, 255),
+            height: 150,
             child: ListView.separated(
-              itemCount: infos.length,
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              separatorBuilder: (context, index) => const SizedBox(width: 25),
+              itemCount: topInfos.length,
+              separatorBuilder: (context, index1) => const SizedBox(width: 25),
               itemBuilder: (context, index) {
-                InfosPod info = infos[index];
+                InfosPod info = topInfos[index];
+                if (info.widget != null) {
+                  return Container(
+                    width: 300,
+                    decoration: BoxDecoration(
+                      color: info.boxColor.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        info.widget!, // info.widget est un widget
+                        Text(
+                          info.name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  );
+                }
                 return Column(
                   children: [
                     Container(
                       width: 300,
-                      height: 139,
+                      height: 150,
                       decoration: BoxDecoration(
                         color: info.boxColor.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(15),
@@ -198,20 +235,13 @@ class _HomePageState extends State<HomePage> {
                           info.name,
                           style: const TextStyle(
                             color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Text(
-                      info.text,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ),
-                    ),
                   ],
                 );
               },
@@ -219,60 +249,57 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            height: 185,
-            color: const Color.fromARGB(255, 255, 255, 255),
-            child: ListView.separated(
-              itemCount: 1,
+            height: 150,
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              separatorBuilder: (context, index) => const SizedBox(width: 25),
+              itemCount: bottomInfos.length,
               itemBuilder: (context, index) {
-                InfosPod info = infos[index];
-                return Column(
-                  children: [
-                    Container(
-                      width: 128,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: info.boxColor.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          'Dernier Bolus',
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                          ),
+                InfosPod info = bottomInfos[index];
+                return Container(
+                  padding: const EdgeInsets.all(5.0),
+                  margin: const EdgeInsets.all(5),
+                  width: 140,
+                  decoration: BoxDecoration(
+                    color: info.boxColor.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        info.name,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
                         ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                      if (info.widget != null) info.widget!,
+                    ],
+                  ),
                 );
               },
             ),
           ),
           const Spacer(),
           Container(
-            alignment: Alignment.center,
+            alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.all(20),
             child: InkWell(
               onTap: () {
                 showBolusInputDialog();
-                // Action à effectuer lorsque le bouton est cliqué
               },
               child: Container(
                 width: 75,
                 height: 75,
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(.8),
+                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9),
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color:
+                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
                       offset: const Offset(0, 3),
@@ -298,12 +325,11 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          const Spacer(), // Utilisation de Spacer pour pousser le texte en bas
           Container(
             alignment: Alignment.bottomRight,
-            margin: const EdgeInsets.only(bottom: 5),
+            margin: const EdgeInsets.only(bottom: 2),
             child: const Text(
-              'Version 0.0.1',
+              'Version 0.0.2',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -323,9 +349,8 @@ class _HomePageState extends State<HomePage> {
           Row(
             children: [
               Icon(
-                CupertinoIcons
-                    .lab_flask_solid, // Remplacez par l'icône de votre choix
-                color: Colors.black,
+                CupertinoIcons.lab_flask_solid, // Icône
+                color: Color.fromARGB(255, 0, 0, 0),
               ),
               SizedBox(width: 10), // Espace entre l'icône et le texte
               Text(
@@ -351,22 +376,6 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       elevation: 0.0,
       centerTitle: false,
-      leading: GestureDetector(
-        onTap: () {},
-        child: Container(
-          margin: const EdgeInsets.all(10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 162, 0, 255).withOpacity(0.3),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: SvgPicture.asset(
-            'assets/icons/arrow-left.svg',
-            height: 20,
-            width: 20,
-          ),
-        ),
-      ),
       actions: [
         PopupMenuButton<String>(
           onSelected: (value) {

@@ -25,7 +25,7 @@ class BluetoothManager {
       }
     });
 
-    // Vérifier l'état Bluetooth initial
+    // Vérifie l'état Bluetooth initial
     flutterBlue.state.first.then((state) {
       bluetoothState = BluetoothState.values[state.index];
       for (var observer in bluetoothObservers) {
@@ -56,7 +56,7 @@ class BluetoothManager {
 
   // Fonction pour administrer un bolus
   void administerBolus(double bolusAmount) {
-    // Vérifiez si le Bluetooth est connecté et prêt à envoyer des données
+    // Vérifie si le Bluetooth est connecté et prêt à envoyer des données
     if (bluetoothState == BluetoothState.poweredOn) {
       // Ici, vous enverriez les détails du bolus via Bluetooth au dispositif médical approprié
       // Exemple fictif : envoi d'une commande de bolus avec la quantité spécifiée
