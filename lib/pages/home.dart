@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'package:flutter_svg/svg.dart';
-import 'package:mypod/models/bluetooth_manager.dart';
 import 'package:mypod/models/infos_pod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mypod/pages/BasalProfile.dart';
 
 class HomePage extends StatefulWidget {
-  final BluetoothManager bluetoothManager;
-
-  HomePage({Key? key, required this.bluetoothManager}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -50,7 +47,6 @@ class _HomePageState extends State<HomePage> {
     double bolusAmount = 5.0;
     // A remplacer par la valeur réelle du bolus
     // Envoyer la commande de bolus via BluetoothManager
-    widget.bluetoothManager.administerBolus(bolusAmount);
 
     // Mise à jour de la quantité restante
     setState(() {
@@ -104,7 +100,6 @@ class _HomePageState extends State<HomePage> {
           );
         } else if (insulinRemaining >= value) {
           // Assez d'insuline, administration du bolus
-          widget.bluetoothManager.administerBolus(value);
           setState(() {
             insulinRemaining -= value;
           });
@@ -190,7 +185,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ), // Intégration du widget de graphique ici
           Container(
-            height: 150,
+            height: 160,
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: topInfos.length,
@@ -222,10 +217,11 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return Column(
+                  //résumé général
                   children: [
                     Container(
                       width: 300,
-                      height: 150,
+                      height: 120,
                       decoration: BoxDecoration(
                         color: info.boxColor.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(15),
@@ -249,7 +245,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             margin: const EdgeInsets.all(20),
-            height: 150,
+            height: 160,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: bottomInfos.length,
@@ -258,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                 return Container(
                   padding: const EdgeInsets.all(5.0),
                   margin: const EdgeInsets.all(5),
-                  width: 140,
+                  width: 160,
                   decoration: BoxDecoration(
                     color: info.boxColor.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(15),
