@@ -13,10 +13,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<InfosPod> topInfos = []; // Pour les éléments en haut
-  List<InfosPod> bottomInfos = []; // Pour les éléments en bas
+  List<InfosPod> topInfos = [];
+  List<InfosPod> bottomInfos = [];
   double insulinRemaining = 200.0;
-  BasalProfile basalProfile = BasalProfile([]); // Initialiser ici basalProfile
+  BasalProfile basalProfile = BasalProfile([]);
   Timer? _timer;
   double calculateBasalInsulinToAdminister() {
     final now = TimeOfDay.now();
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
     return basalRate;
   }
 
-  var MONTHS = [
+  var months = [
     "Jan",
     "Fev",
     "Mar",
@@ -166,10 +166,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(MONTHS),
+      appBar: appBar(months),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-      body: ListView(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+      body: Column(
+        // Wrap your ListView in a Column
         children: [
           const Padding(
             padding: EdgeInsets.all(25),
@@ -183,7 +183,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-          ), // Intégration du widget de graphique ici
+          ),
           Container(
             height: 160,
             child: ListView.separated(
@@ -202,7 +202,7 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        info.widget!, // info.widget est un widget
+                        info.widget!,
                         Text(
                           info.name,
                           style: const TextStyle(
@@ -217,27 +217,38 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return Column(
-                  //résumé général
                   children: [
-                    Container(
-                      width: 300,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: info.boxColor.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Center(
-                        child: Text(
-                          info.name,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                          ),
+                    // Other widgets before the Expanded
+                    Expanded(
+                      child: Container(
+                        width: 300,
+                        decoration: BoxDecoration(
+                          color: info.boxColor.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (info.widget != null)
+                              info.widget!
+                            else
+                              SizedBox
+                                  .shrink(), // Use an empty SizedBox if info.widget is null
+                            Text(
+                              info.name,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 10),
+
+                    // Other widgets after the Expanded
                   ],
                 );
               },
@@ -337,7 +348,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AppBar appBar(List<String> MONTHS) {
+  AppBar appBar(List<String> months) {
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -360,7 +371,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Text(
-            '${DateTime.now().day} ${MONTHS[DateTime.now().month - 1]}',
+            '${DateTime.now().day} ${months[DateTime.now().month - 1]}',
             style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
