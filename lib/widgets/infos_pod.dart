@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mypod/pages/BasalRateChart.dart';
+import 'package:mypod/widgets/BasalRateChart.dart';
 import 'package:mypod/pages/state_pod.dart';
 
 class InfosPod {

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter_svg/svg.dart';
-import 'package:mypod/models/infos_pod.dart';
+import 'package:mypod/widgets/infos_pod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mypod/pages/BasalProfile.dart';
+import 'package:mypod/widgets/PopupMenu/popup_menu_home.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -16,15 +16,7 @@ class _HomePageState extends State<HomePage> {
   List<InfosPod> topInfos = [];
   List<InfosPod> bottomInfos = [];
   double insulinRemaining = 200.0;
-  BasalProfile basalProfile = BasalProfile([]);
   Timer? _timer;
-  double calculateBasalInsulinToAdminister() {
-    final now = TimeOfDay.now();
-    final basalRate = basalProfile
-        .calculateBasalInsulinForTime(now); // Accède à basalProfile ici
-    return basalRate;
-  }
-
   var months = [
     "Jan",
     "Fev",
@@ -149,7 +141,8 @@ class _HomePageState extends State<HomePage> {
     const interval = Duration(minutes: 5);
     _timer = Timer.periodic(interval, (Timer t) {
       if (mounted) {
-        final basalInsulin = calculateBasalInsulinToAdminister();
+        final basalInsulin =
+            0; //0 pour l'instant, à charger du profil basal après
         setState(() {
           insulinRemaining -= basalInsulin;
         });
@@ -336,7 +329,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(bottom: 2),
             child: const Text(
-              'Version 0.0.2',
+              'Version 0.2.1',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -384,82 +377,7 @@ class _HomePageState extends State<HomePage> {
       elevation: 0.0,
       centerTitle: false,
       actions: [
-        PopupMenuButton<String>(
-          onSelected: (value) {
-            // Action à effectuer lorsque le menu est sélectionné
-            if (value == 'menu_item_1') {
-              // Action pour l'élément de menu 1
-            } else if (value == 'menu_item_2') {
-              // Action pour l'élément de menu 2
-            }
-          },
-          itemBuilder: (BuildContext context) {
-            return <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'menu_basal_temp',
-                child: ListTile(
-                  leading: Icon(Icons.lock_clock),
-                  title: Text('Définir Basal Temporaire'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'menu_pod',
-                child: ListTile(
-                  leading: Icon(Icons.smartphone),
-                  title: Text('Pod'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'menu_suspendre_insuline',
-                child: ListTile(
-                  leading: Icon(Icons.stop),
-                  title: Text('Suspendre Admin. Insuline'),
-                ),
-              ),
-              PopupMenuItem<String>(
-                value: 'menu_prog_basaux',
-                child: ListTile(
-                  leading: Icon(Icons.schema_rounded),
-                  title: Text('Programmes Basaux'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BasalProfileEditor()),
-                    );
-                  },
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'menu_historique',
-                child: ListTile(
-                  leading: Icon(Icons.history),
-                  title: Text('Historique'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'menu_rappels',
-                child: ListTile(
-                  leading: Icon(Icons.notifications),
-                  title: Text('Rappels'),
-                ),
-              ),
-              const PopupMenuItem<String>(
-                value: 'menu_reglages',
-                child: ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text('Réglages'),
-                ),
-              ),
-            ];
-          },
-          icon: SvgPicture.asset(
-            'assets/icons/dots.svg',
-            height: 5,
-            width: 5,
-          ),
-          // Icône du bouton de menu
-        ),
+        MyPopupMenu(),
       ],
     );
   }

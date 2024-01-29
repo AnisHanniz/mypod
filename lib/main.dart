@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mypod/pages/home.dart';
-import 'package:mypod/presentation/app_navigation_screen/app_navigation_screen.dart';
-import 'package:mypod/presentation/login_screen/login_screen.dart';
-import 'package:mypod/presentation/signup_screen/signup_screen.dart';
-import 'package:mypod/presentation/splash_screen/splash_screen.dart';
+import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
+import 'package:mypod/pages/login_screen/login_screen.dart';
+import 'package:mypod/pages/signup_screen/signup_screen.dart';
+import 'package:mypod/pages/splash_screen/splash_screen.dart';
 import 'package:mypod/utils/app_routes.dart';
 
 void main() {

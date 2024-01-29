@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 
 class StatePod extends StatelessWidget {
-  // Vous pouvez ajouter un paramètre pour passer l'état de la connexion
   final bool isConnected;
 
-  // Exiger que l'état de la connexion soit fourni au widget
   const StatePod({super.key, required this.isConnected});
 
   @override
   Widget build(BuildContext context) {
-    // Sélection de l'icône en fonction de l'état de la connexion
     Icon connectionIcon = isConnected
         ? const Icon(Icons.check_circle,
             color: Colors.white) // Icône pour l'état connecté
@@ -30,7 +27,6 @@ class StatePod extends StatelessWidget {
               fontSize: 12,
             ),
           )
-
           // Texte de l'état de la connexion
         ],
       ),
