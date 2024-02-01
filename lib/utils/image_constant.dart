@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ImageConstant {
-  // Image folder path
+  // path
   static String imagePath = 'assets/images';
 
-  // Splash Screen images
-  static String imgHiDocLogo = '$imagePath/img_hi_doc_logo.png';
-
-  // Signup images
+  // Images inscription
   static String imgLock = '$imagePath/img_lock.svg';
 
-  // Common images
-  static String imgHiDocLogo42x115 = '$imagePath/img_hi_doc_logo_42x115.png';
+  // Images courantes
 
   static String imgSystemIcon = '$imagePath/img_system_icon.svg';
 
@@ -21,5 +17,5 @@ class ImageConstant {
 
   static String imageLogo = 'assets/images/logo.png';
 
-  static Color violet = Color.fromARGB(255, 143, 26, 253);
+  static Color violet = Color.fromRGBO(143, 26, 253, 1);
 }

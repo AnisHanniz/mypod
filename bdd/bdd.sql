@@ -4,7 +4,7 @@ USE myPodDB;
 
 -- Table pour stocker les informations personnelles des patiens
 CREATE TABLE Patients (
-    PatientID INT AUTO_INCREMENT PRIMARY KEY,
+    Patients INT AUTO_INCREMENT PRIMARY KEY,
     NomPren VARCHAR(255) NOT NULL,
     DateDeNais DATE,
     Adresse VARCHAR(255),

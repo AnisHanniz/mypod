@@ -3,5 +3,6 @@ class AppRoutes {
   static const String loginScreen = '/loginScreen';
   static const String signupScreen = '/signupScreen';
   static const String accueilScreen = '/home';
-  // Ajoutez d'autres routes au besoin
+  static const String patientsScreen = '/patientsList';
+  static const String bluetoothScreen = '/bluetoothConnect';
 }

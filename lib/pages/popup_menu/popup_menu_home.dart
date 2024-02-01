@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mypod/widgets/PopupMenu/basal_temp_page.dart';
-import 'package:mypod/widgets/PopupMenu/pod_page.dart';
+import 'package:mypod/pages/popup_menu/basal_temp_page.dart';
+import 'package:mypod/pages/popup_menu/pod_page.dart';
 
 class MyPopupMenu extends StatelessWidget {
   @override

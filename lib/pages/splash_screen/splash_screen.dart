@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:mypod/utils/app_routes.dart';
 import 'package:mypod/widgets/custom_elevated_button.dart';
 import 'package:mypod/widgets/custom_outlined_button.dart';
-import 'package:flutter/material.dart';
 import 'package:mypod/utils/image_constant.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -9,28 +9,46 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            backgroundColor: ImageConstant.violet,
-            body: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(horizontal: 17, vertical: 46),
-                child: Column(children: [
-                  Spacer(),
-                  CustomOutlinedButton(
-                      text: "Se Connecter",
-                      margin: EdgeInsets.only(right: 6),
-                      onPressed: () {
-                        onTapLogin(context);
-                      }),
-                  SizedBox(height: 15),
-                  CustomElevatedButton(
-                      text: "Créer un Compte",
-                      margin: EdgeInsets.only(right: 6),
-                      onPressed: () {
-                        onTapSignUp(context);
-                      })
-                ]))));
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'MyPod',
+              style: TextStyle(
+                fontSize:
+                    24, // Ajustez la taille de la police selon vos préférences
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(height: 20),
+            Image.asset(
+              ImageConstant.imageLogo,
+              height: 150,
+              width: 150,
+            ),
+            SizedBox(height: 60),
+            CustomElevatedButton(
+              text: "Se Connecter",
+              onPressed: () {
+                onTapLogin(context);
+              },
+            ),
+            SizedBox(height: 20),
+            CustomOutlinedButton(
+              text: "Créer un Compte",
+              onPressed: () {
+                onTapSignUp(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   onTapLogin(BuildContext context) {

@@ -60,7 +60,6 @@ class CustomIconButton extends StatelessWidget {
       );
 }
 
-/// Extension on [CustomIconButton] to facilitate inclusion of all types of border style etc
 extension IconButtonStyleHelper on CustomIconButton {
   static BoxDecoration get fillCyan => BoxDecoration(
         color: ImageConstant.violet,

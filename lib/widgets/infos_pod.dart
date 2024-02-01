@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mypod/widgets/BasalRateChart.dart';
-import 'package:mypod/pages/state_pod.dart';
+import 'package:mypod/widgets/state_pod.dart';
+import 'package:mypod/widgets/resume_general.dart';
 
 class InfosPod {
   String name;
   Color boxColor;
-  Widget? widget; // Ajout d'une propriété facultative pour un widget
+  Widget? widget;
 
   InfosPod({
     required this.name,
     required this.boxColor,
-    this.widget, // Ajout du widget au constructeur
+    this.widget,
   });
+
+  Widget buildWidget() {
+    return Column(
+      children: [
+        Text(
+          name,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+      ],
+    );
+  }
 
   static List<InfosPod> getInfosPod(int i) {
     List<InfosPod> infos = [];
@@ -20,7 +32,13 @@ class InfosPod {
         infos.add(InfosPod(
           name: 'Résumé Général',
           boxColor: Color.fromARGB(255, 143, 26, 253),
-          widget: null,
+          widget: ResumeGeneralCard(
+            // Simulation de valeurs
+            lastBolus: 10.0,
+            lastBolusTime: DateTime.now(),
+            currentBasalRate: 1.0,
+            datechangementPod: DateTime.now(),
+          ),
         ));
         break;
 

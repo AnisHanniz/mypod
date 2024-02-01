@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mypod/widgets/infos_pod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mypod/widgets/PopupMenu/popup_menu_home.dart';
+import 'package:mypod/pages/popup_menu/popup_menu_home.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  // dialogue pour saisir la quantité du bolus
+  // Dialogue pour saisir la quantité du bolus
   Future<void> showBolusInputDialog() async {
     double bolusAmount = 0.0;
     await showDialog<double>(
@@ -158,14 +158,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = PageController(viewportFraction: 0.8);
     return Scaffold(
       appBar: appBar(months),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Column(
-        // Wrap your ListView in a Column
         children: [
           const Padding(
-            padding: EdgeInsets.all(25),
+            padding: EdgeInsets.all(20),
             child: Center(
               child: Text(
                 'myPod',
@@ -178,7 +178,8 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           Container(
-            height: 160,
+            height: 180,
+            margin: EdgeInsets.all(15),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: topInfos.length,
@@ -211,7 +212,6 @@ class _HomePageState extends State<HomePage> {
                 }
                 return Column(
                   children: [
-                    // Other widgets before the Expanded
                     Expanded(
                       child: Container(
                         width: 300,
@@ -225,8 +225,7 @@ class _HomePageState extends State<HomePage> {
                             if (info.widget != null)
                               info.widget!
                             else
-                              SizedBox
-                                  .shrink(), // Use an empty SizedBox if info.widget is null
+                              SizedBox.shrink(),
                             Text(
                               info.name,
                               style: const TextStyle(
@@ -240,8 +239,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-
-                    // Other widgets after the Expanded
                   ],
                 );
               },

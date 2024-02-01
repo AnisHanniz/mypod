@@ -14,7 +14,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ImageConstant.violet,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 20),
@@ -68,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                         text: "Vous n'avez pas de compte?",
                         style: TextStyle(
                           fontSize: 14,
-                          color: Colors.white,
+                          color: Colors.black,
                         ),
                       ),
                       TextSpan(text: " "),
@@ -77,7 +77,7 @@ class LoginScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w400,
-                          color: Colors.white,
+                          color: ImageConstant.violet,
                         ),
                       ),
                     ],
@@ -113,7 +113,7 @@ class LoginScreen extends StatelessWidget {
           "Se Connecter pour continuer",
           style: TextStyle(
             fontSize: 16,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
       ],

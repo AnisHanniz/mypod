@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+  <title>Préférence</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="inscription.css" />
+</head>
+
+  <body>
+  <div class="pref">
+    <form action="treatpreference.php" method="post">
+
+      Couleurs des Samedi: <select name="pref_samedi">
+        <option value="">Choix Couleur</option>
+          <option value="0">Rouge</option>
+          <option value="1">Vert</option>
+          <option value="2">Bleu</option>
+          <option value="3">Rose</option>
+          <option value="4">Gris</option>
+          <option value="5">Mauve</option>
+          <option value="6">Jaune</option>
+          <option value="7">Cyan</option>
+          <option value="8">Chocolat</option>
+          <option value="9">Vert Marin</option>
+        </select>
+    <br> 
+    Couleurs des  Dimache: <select name="pref_dimanche">
+          <option value="">Choix Couleur</option>
+          <option value="0">Rouge</option>
+          <option value="1">Vert</option>
+          <option value="2">Bleu</option>
+          <option value="3">Rose</option>
+          <option value="4">Gris</option>
+          <option value="5">Mauve</option>
+          <option value="6">Jaune</option>
+          <option value="7">Cyan</option>
+          <option value="8">Chocolat</option>
+          <option value="9">Vert Marin</option>
+        </select>
+      <br>
+      Couleurs des jours Ferie: <select name="pref_ferie">
+        <option value="">Choix Couleur</option>
+        <option value="0">Rouge</option>
+        <option value="1">Vert</option>
+        <option value="2">Bleu</option>
+        <option value="3">Rose</option>
+        <option value="4">Gris</option>
+        <option value="5">Mauve</option>
+        <option value="6">Jaune</option>
+        <option value="7">Cyan</option>
+        <option value="8">Chocolat</option>
+        <option value="9">Vert Marin</option>
+      </select>
+      <br>  
+      Style d'affichage des évènements: <select name="affichage">
+          <option value="">Choix Affichage</option>
+          <option value="0">Souligner</option>
+          <option value="1">Surligner</option>
+      </select>
+      <br> 
+      Limite affichage des évènements proches :<input type="number" name="limit"/><br> 
+      <input type="submit" value="Enregistrer">
+    </form>
+  </div>
+</body>

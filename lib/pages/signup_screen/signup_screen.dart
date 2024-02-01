@@ -1,8 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:mypod/utils/app_routes.dart';
 import 'package:mypod/widgets/custom_elevated_button.dart';
 import 'package:mypod/widgets/custom_image_view.dart';
 import 'package:mypod/widgets/custom_text_form_field.dart';
-import 'package:flutter/material.dart';
 import 'package:mypod/utils/image_constant.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -12,30 +12,45 @@ class SignupScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController passwordController1 = TextEditingController();
+  final TextEditingController socialSecurityController =
+      TextEditingController();
+  final TextEditingController birthDateController = TextEditingController();
+  final TextEditingController treatingDoctorController =
+      TextEditingController();
+  final TextEditingController diabeticDoctorController =
+      TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ImageConstant.violet,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 70),
+            SizedBox(height: 40),
             _buildPageTitle(context),
-            SizedBox(height: 29),
+            SizedBox(height: 20),
             _buildFullName(context),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
             _buildEmail(context),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
+            _buildSocialSecurity(context),
+            SizedBox(height: 12),
+            _buildBirthDate(context),
+            SizedBox(height: 12),
+            _buildTreatingDoctor(context),
+            SizedBox(height: 12),
+            _buildDiabeticDoctor(context),
+            SizedBox(height: 12),
             _buildPassword(context),
-            SizedBox(height: 8),
+            SizedBox(height: 12),
             _buildPassword1(context),
-            SizedBox(height: 39),
+            SizedBox(height: 30),
             _buildSignUp(context),
-            SizedBox(height: 24), // Added some spacing
+            SizedBox(height: 24),
             GestureDetector(
               onTap: () => onTapTxtHaveAnAccount(context),
               child: RichText(
@@ -43,13 +58,17 @@ class SignupScreen extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: "Vous avez déjà un compte?",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                      ),
                     ),
                     TextSpan(text: " "),
                     TextSpan(
                       text: "Se Connecter",
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
-                        color: Colors.white,
+                        color: ImageConstant.violet,
                       ),
                     ),
                   ],
@@ -65,31 +84,63 @@ class SignupScreen extends StatelessWidget {
 
   Widget _buildPageTitle(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomImageView(
           imagePath: ImageConstant.imageLogo,
-          height: 42,
-          width: 115,
+          height: 100,
+          width: 100,
         ),
-        SizedBox(height: 27),
+        SizedBox(height: 15),
         Text(
-          "C'est parti!",
+          "Nouveau Compte",
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
-        SizedBox(height: 10),
+        SizedBox(height: 5),
         Text(
-          "Créer un nouveau compte",
+          "Une demande sera envoyée",
           style: TextStyle(
-            fontSize: 16,
-            color: Colors.white,
+            fontSize: 18,
+            color: Colors.black,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSocialSecurity(BuildContext context) {
+    return CustomTextFormField(
+      controller: socialSecurityController,
+      hintText: "Numéro de sécurité sociale",
+      prefix: Icon(Icons.security, color: Colors.grey),
+    );
+  }
+
+  Widget _buildBirthDate(BuildContext context) {
+    return CustomTextFormField(
+      controller: birthDateController,
+      hintText: "Date de Naissance",
+      prefix: Icon(Icons.calendar_today, color: Colors.grey),
+    );
+  }
+
+  Widget _buildTreatingDoctor(BuildContext context) {
+    return CustomTextFormField(
+      controller: treatingDoctorController,
+      hintText: "Médecin traitant",
+      prefix: Icon(Icons.medical_services, color: Colors.grey),
+    );
+  }
+
+  Widget _buildDiabeticDoctor(BuildContext context) {
+    return CustomTextFormField(
+      controller: diabeticDoctorController,
+      hintText: "Médecin diabétologue",
+      prefix: Icon(Icons.medical_services, color: Colors.grey),
     );
   }
 
@@ -98,7 +149,6 @@ class SignupScreen extends StatelessWidget {
       controller: fullNameController,
       hintText: "Votre nom complet",
       prefix: Icon(Icons.person, color: Colors.grey),
-      prefixConstraints: BoxConstraints(maxHeight: 40),
     );
   }
 
@@ -108,7 +158,6 @@ class SignupScreen extends StatelessWidget {
       hintText: "Votre Mail",
       textInputType: TextInputType.emailAddress,
       prefix: Icon(Icons.email, color: Colors.grey),
-      prefixConstraints: BoxConstraints(maxHeight: 48),
     );
   }
 
@@ -118,7 +167,6 @@ class SignupScreen extends StatelessWidget {
       hintText: "Mot de Passe",
       textInputType: TextInputType.visiblePassword,
       prefix: Icon(Icons.lock, color: Colors.grey),
-      prefixConstraints: BoxConstraints(maxHeight: 48),
       obscureText: true,
     );
   }
@@ -130,7 +178,6 @@ class SignupScreen extends StatelessWidget {
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       prefix: Icon(Icons.lock, color: Colors.grey),
-      prefixConstraints: BoxConstraints(maxHeight: 48),
       obscureText: true,
     );
   }
@@ -139,7 +186,7 @@ class SignupScreen extends StatelessWidget {
     return CustomElevatedButton(
       text: "Confirmer",
       onPressed: () {
-        // Implement the sign-up logic here
+        // À faire
       },
     );
   }

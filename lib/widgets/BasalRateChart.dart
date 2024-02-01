@@ -8,7 +8,7 @@ class BasalRateChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(14.0),
+        padding: const EdgeInsets.all(20.0),
         child: LineChart(
           LineChartData(
             gridData: FlGridData(

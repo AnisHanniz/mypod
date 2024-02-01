@@ -36,6 +36,16 @@ class AppNavigationScreen extends StatelessWidget {
                     screenTitle: "Accueil",
                     routeName: AppRoutes.accueilScreen,
                   ),
+                  _buildScreenTitle(
+                    context,
+                    screenTitle: "Liste des Patients",
+                    routeName: AppRoutes.patientsScreen,
+                  ),
+                  _buildScreenTitle(
+                    context,
+                    screenTitle: "Bluetooth",
+                    routeName: AppRoutes.bluetoothScreen,
+                  ),
                 ],
               ),
             ),

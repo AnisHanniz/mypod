@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mypod/pages/bdd/patiens_list.dart';
+import 'package:mypod/pages/bluetooth/bluetooth_connect_page.dart';
 import 'package:mypod/pages/home.dart';
 import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
 import 'package:mypod/pages/login_screen/login_screen.dart';
@@ -33,7 +35,8 @@ class MyApp extends StatelessWidget {
             SignupScreen(), // Route pour l'écran d'inscription
         AppRoutes.accueilScreen: (context) =>
             HomePage(), // Route pour l'écran d'inscription
-        // ... autres routes ...
+        AppRoutes.patientsScreen: (context) => PatientsListScreen(),
+        AppRoutes.bluetoothScreen: (context) => BluetoothConnectPage(),
       },
     );
   }
