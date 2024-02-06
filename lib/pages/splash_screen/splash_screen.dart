@@ -19,8 +19,12 @@ class SplashScreen extends StatelessWidget {
             Text(
               'MyPod',
               style: TextStyle(
+<<<<<<< Updated upstream
                 fontSize:
                     24, // Ajustez la taille de la police selon vos préférences
+=======
+                fontSize: 24,
+>>>>>>> Stashed changes
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -40,7 +44,11 @@ class SplashScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             CustomOutlinedButton(
+<<<<<<< Updated upstream
               text: "Créer un Compte",
+=======
+              text: "Première Connexion",
+>>>>>>> Stashed changes
               onPressed: () {
                 onTapSignUp(context);
               },

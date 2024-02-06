@@ -1,0 +1,11 @@
+sudo su
+
+root@nad-GF65-Thin-10SDR:/# apt install adb
+
+root@nad-GF65-Thin-10SDR:/# adb root
+
+root@nad-GF65-Thin-10SDR:/# adb shell
+
+emu64xa:/ # cd /data/user/0/com.example.mypod/databases   
+
+rm *

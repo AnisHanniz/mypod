@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mypod/utils/app_routes.dart';
+import 'package:mypod/utils/image_constant.dart';
 
 class AppNavigationScreen extends StatelessWidget {
   const AppNavigationScreen({Key? key}) : super(key: key);
@@ -38,6 +39,7 @@ class AppNavigationScreen extends StatelessWidget {
                   ),
                   _buildScreenTitle(
                     context,
+<<<<<<< Updated upstream
                     screenTitle: "Liste des Patients",
                     routeName: AppRoutes.patientsScreen,
                   ),
@@ -45,6 +47,15 @@ class AppNavigationScreen extends StatelessWidget {
                     context,
                     screenTitle: "Bluetooth",
                     routeName: AppRoutes.bluetoothScreen,
+=======
+                    screenTitle: "Bluetooth",
+                    routeName: AppRoutes.bluetoothScreen,
+                  ),
+                  _buildScreenTitle(
+                    context,
+                    screenTitle: "État de la BDD",
+                    routeName: AppRoutes.databaseViewerScreen,
+>>>>>>> Stashed changes
                   ),
                 ],
               ),
@@ -60,10 +71,10 @@ class AppNavigationScreen extends StatelessWidget {
       color: Color(0XFFFFFFFF),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "App Navigation",
+            "MyPod",
             style: TextStyle(
               color: Color(0XFF000000),
               fontSize: 20,
@@ -72,8 +83,14 @@ class AppNavigationScreen extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10),
+          Image.asset(
+            ImageConstant.imageLogo,
+            height: 42,
+            width: 115,
+          ),
+          SizedBox(height: 10),
           Text(
-            "DEMO",
+            "Navigation DEMO",
             style: TextStyle(
               color: Color(0XFF888888),
               fontSize: 16,

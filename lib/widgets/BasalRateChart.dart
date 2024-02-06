@@ -7,6 +7,7 @@ class BasalRateChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+<<<<<<< Updated upstream
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: LineChart(
@@ -71,26 +72,105 @@ class BasalRateChart extends StatelessWidget {
                 },
                 reservedSize: 28,
                 margin: 10,
+=======
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Text(
+              'Profil Basal Actuel',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+>>>>>>> Stashed changes
               ),
             ),
-            borderData: FlBorderData(show: true),
-            minX: 0,
-            maxX: 24,
-            minY: 0,
-            maxY: 1.5,
-            lineBarsData: [
-              LineChartBarData(
-                spots: generateSpots(),
-                isCurved: true,
-                colors: [const Color.fromARGB(255, 0, 0, 0)],
-                barWidth: 4,
-                isStrokeCapRound: true,
-                dotData: FlDotData(show: false),
-                belowBarData: BarAreaData(show: false),
-              ),
-            ],
+          ),
+          SizedBox(height: 5), // Espace sous le titre
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: buildLineChart(),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLineChart() {
+    final gridLine = FlLine(
+      color: Color.fromARGB(255, 61, 69, 75),
+      strokeWidth: 1,
+    );
+
+    final titlesTextStyle = TextStyle(
+      color: Color.fromARGB(255, 255, 255, 255),
+      fontWeight: FontWeight.bold,
+      fontSize: 12,
+    );
+
+    return LineChart(
+      LineChartData(
+        gridData: FlGridData(
+          show: true,
+          drawVerticalLine: true,
+          getDrawingVerticalLine: (_) => gridLine,
+          drawHorizontalLine: true,
+          getDrawingHorizontalLine: (_) => gridLine,
+          verticalInterval: 6,
+          horizontalInterval: 0.1,
+        ),
+        titlesData: FlTitlesData(
+          show: true,
+          bottomTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 22,
+            getTextStyles: (_, __) => titlesTextStyle,
+            margin: 10,
+            getTitles: (value) {
+              switch (value.toInt()) {
+                case 0:
+                  return '0h';
+                case 6:
+                  return '6h';
+                case 12:
+                  return '12h';
+                case 18:
+                  return '18h';
+                case 24:
+                  return '24h';
+                default:
+                  return ''; // Retourner une chaîne vide pour ne pas encombrer l'axe des x
+              }
+            },
+          ),
+          leftTitles: SideTitles(
+            showTitles: true,
+            getTextStyles: (_, __) => titlesTextStyle,
+            getTitles: (value) {
+              return '${value.toStringAsFixed(1)}U';
+            },
+            reservedSize: 28,
+            margin: 10,
           ),
         ),
+        borderData: FlBorderData(show: true),
+        minX: 0,
+        maxX: 24,
+        minY: 0,
+        maxY: 1.5,
+        lineBarsData: [
+          LineChartBarData(
+            spots: generateSpots(),
+            isCurved: true,
+            colors: [const Color.fromARGB(255, 0, 0, 0)],
+            barWidth: 4,
+            isStrokeCapRound: true,
+            dotData: FlDotData(show: false),
+            belowBarData: BarAreaData(show: false),
+          ),
+        ],
       ),
     );
   }

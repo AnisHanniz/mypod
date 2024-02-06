@@ -65,7 +65,7 @@ class LoginScreen extends StatelessWidget {
                   text: TextSpan(
                     children: [
                       TextSpan(
-                        text: "Vous n'avez pas de compte?",
+                        text: "Première connexion?",
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,

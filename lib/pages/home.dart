@@ -1,9 +1,20 @@
 import 'dart:async';
-import 'package:flutter_svg/svg.dart';
-import 'package:mypod/widgets/infos_pod.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< Updated upstream
 import 'package:mypod/pages/popup_menu/popup_menu_home.dart';
+=======
+import 'package:mypod/main.dart';
+import 'package:mypod/pages/bdd/database.dart';
+import 'package:mypod/widgets/Bolus/bolus_dialogue.dart';
+import 'package:mypod/widgets/Bolus/last_bolus_widget.dart';
+import 'package:mypod/widgets/PopupMenu/popup_menu_home.dart';
+import 'package:mypod/widgets/infos_pod.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:path/path.dart';
+>>>>>>> Stashed changes
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -15,8 +26,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<InfosPod> topInfos = [];
   List<InfosPod> bottomInfos = [];
-  double insulinRemaining = 200.0;
+  double insulinRemaining = 200.0; // À charger depuis la pompe
   Timer? _timer;
+<<<<<<< Updated upstream
   var months = [
     "Jan",
     "Fev",
@@ -119,30 +131,75 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
+=======
+  final database = DatabaseProvider();
+  String nom = '';
+  String prenom = '';
+>>>>>>> Stashed changes
 
-  void _getInfosPod() {
+  void _getInfosPod(Database db) {
     // Résumé général et profil basal actif pour le haut
     topInfos = [
-      InfosPod.getInfosPod(0).first,
-      InfosPod.getInfosPod(1).first,
+      InfosPod.getInfosPod(0, db).first,
+      InfosPod.getInfosPod(1, db).first,
     ];
 
     // État du pod et dernier bolus pour le bas
     bottomInfos = [
-      InfosPod.getInfosPod(2).first, // État du pod
-      InfosPod.getInfosPod(3).first, // Dernier bolus
+      InfosPod.getInfosPod(2, db).first, // État du pod
+      InfosPod.getInfosPod(3, db).first, // Dernier bolus
     ];
   }
 
   @override
   void initState() {
     super.initState();
-    _getInfosPod();
+    _initializeData();
+    initializeAsyncData().then((_) {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+  }
+
+  Future<void> _loadUserPreferences(Database database) async {
+    final utilisateurParams =
+        await DatabaseProvider().readUtilisateurParams(database);
+    if (utilisateurParams != null) {
+      // Les données de l'utilisateur sont disponibles, mettez à jour l'état de la page
+      setState(() {
+        nom = utilisateurParams['nom'];
+        prenom = utilisateurParams['prenom'];
+      });
+    } else {
+      // Les données de l'utilisateur n'ont pas été trouvées, vous pouvez gérer ce cas
+      // Par exemple, vous pouvez définir des valeurs par défaut pour nom et prénom ici.
+    }
+  }
+
+  void _initializeData() {
+    final databaseProvider = DatabaseProvider();
+
+    databaseProvider.initDB().then((database) {
+      _loadUserPreferences(database);
+      initializeAsyncData().then((_) {
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    });
+  }
+
+  Future<void> initializeAsyncData() async {
+    await initPathProvider();
+    final databaseProvider = DatabaseProvider();
+    final database = await databaseProvider.initDB();
+    _getInfosPod(database);
+
     const interval = Duration(minutes: 5);
     _timer = Timer.periodic(interval, (Timer t) {
       if (mounted) {
-        final basalInsulin =
-            0; //0 pour l'instant, à charger du profil basal après
+        final basalInsulin = 0; // À remplacer avec les valeurs réelles
         setState(() {
           insulinRemaining -= basalInsulin;
         });
@@ -160,7 +217,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final controller = PageController(viewportFraction: 0.8);
     return Scaffold(
-      appBar: appBar(months),
+      appBar: appBar(),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Column(
         children: [
@@ -285,7 +342,17 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.all(20),
             child: InkWell(
               onTap: () {
-                showBolusInputDialog();
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return BolusInputDialog(
+                      insulinRemaining: insulinRemaining,
+                      updateInsulinRemaining: (double value) {
+                        // Mettez à jour la valeur de l'insulinRemaining ici
+                      },
+                    );
+                  },
+                );
               },
               child: Container(
                 width: 75,
@@ -326,7 +393,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(bottom: 2),
             child: const Text(
-              'Version 0.2.1',
+              'Version 0.3.0',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -338,7 +405,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AppBar appBar(List<String> months) {
+  AppBar appBar() {
+    final currentDate = DateTime.now();
+    final formattedDate = DateFormat.MMM('fr').format(
+        currentDate); // Format court pour le nom du mois en français (ex: janv, févr, ...)
+
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -361,7 +432,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
           Text(
-            '${DateTime.now().day} ${months[DateTime.now().month - 1]}',
+            '${DateTime.now().day} $formattedDate', // Utilisation du mois formaté en français
             style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -376,6 +447,117 @@ class _HomePageState extends State<HomePage> {
       actions: [
         MyPopupMenu(),
       ],
+    );
+  }
+}
+
+class LastBolusWidget extends StatefulWidget {
+  @override
+  _LastBolusWidgetState createState() => _LastBolusWidgetState();
+}
+
+class _LastBolusWidgetState extends State<LastBolusWidget> {
+  String lastBolus = 'Aucun bolus enregistré';
+  String dateInjection = '';
+  String heureInjection = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getLastBolusFromDatabase(); // Appel de la fonction pour récupérer le dernier bolus
+  }
+
+  Future<void> getLastBolusFromDatabase() async {
+    try {
+      Database database = await openDatabase(
+        join(await getDatabasesPath(), 'local.db'),
+      );
+
+      final List<Map<String, dynamic>> results = await database.query(
+        'historique_injections_bolus',
+        orderBy: 'date_injection DESC, heure_injection DESC',
+        limit: 1,
+      );
+
+      if (results.isNotEmpty) {
+        setState(() {
+          lastBolus = results[0]['dose'].toString();
+          dateInjection = results[0]['date_injection'];
+          heureInjection = results[0]['heure_injection'];
+        });
+      } else {}
+    } catch (e) {
+      print('Erreur lors de la récupération du dernier bolus : $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 4,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      margin: EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.bolt_rounded), // Icône pour la date
+              SizedBox(width: 4.0),
+              Text(
+                '$lastBolus unités',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 10.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.0), // Espace entre les icônes
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.calendar_today), // Icône pour la date
+              SizedBox(width: 4.0),
+              Text(
+                'le $dateInjection',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 10.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.0), // Espace entre les icônes
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.access_time), // Icône pour l'heure
+              SizedBox(width: 4.0),
+              Text(
+                'à $heureInjection',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 10.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

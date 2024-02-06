@@ -3,7 +3,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CustomRatingBar extends StatelessWidget {
   CustomRatingBar({
-    Key? key,
+    super.key,
     this.alignment,
     this.ignoreGestures,
     this.initialRating,
@@ -12,9 +12,7 @@ class CustomRatingBar extends StatelessWidget {
     this.color,
     this.unselectedColor,
     this.onRatingUpdate,
-  }) : super(
-          key: key,
-        );
+  });
 
   final Alignment? alignment;
 

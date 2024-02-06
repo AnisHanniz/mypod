@@ -5,9 +5,10 @@ import 'package:mypod/widgets/custom_image_view.dart';
 import 'package:mypod/widgets/custom_text_form_field.dart';
 import 'package:mypod/utils/image_constant.dart';
 
-class SignupScreen extends StatelessWidget {
-  SignupScreen({Key? key}) : super(key: key);
+class FirstConnectionScreen extends StatelessWidget {
+  FirstConnectionScreen({Key? key}) : super(key: key);
 
+<<<<<<< Updated upstream
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -19,12 +20,16 @@ class SignupScreen extends StatelessWidget {
       TextEditingController();
   final TextEditingController diabeticDoctorController =
       TextEditingController();
+=======
+  final TextEditingController idController = TextEditingController();
+>>>>>>> Stashed changes
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+<<<<<<< Updated upstream
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
         child: Column(
@@ -69,20 +74,52 @@ class SignupScreen extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: ImageConstant.violet,
+=======
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 70),
+              _buildPageTitle(context),
+              const SizedBox(height: 29),
+              _buildIDField(context),
+              const SizedBox(height: 39),
+              _buildConnectButton(context),
+              const SizedBox(height: 24),
+              GestureDetector(
+                onTap: () => onTapTxtHaveAnAccount(context),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      const TextSpan(
+                        text: "Vous avez déjà un compte?",
+                        style: TextStyle(color: Colors.black),
+>>>>>>> Stashed changes
                       ),
-                    ),
-                  ],
+                      const TextSpan(text: " "),
+                      TextSpan(
+                        text: "Se Connecter",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: ImageConstant.violet,
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.left,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildPageTitle(BuildContext context) {
+<<<<<<< Updated upstream
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -168,30 +205,100 @@ class SignupScreen extends StatelessWidget {
       textInputType: TextInputType.visiblePassword,
       prefix: Icon(Icons.lock, color: Colors.grey),
       obscureText: true,
+=======
+    return Center(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomImageView(
+            imagePath: ImageConstant.imageLogo,
+            height: 120,
+            width: 120,
+          ),
+          const SizedBox(height: 27),
+          const Text(
+            "C'est votre première connexion",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          const Text(
+            "Entrez l'identifiant donné par votre médecin",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+>>>>>>> Stashed changes
     );
   }
 
-  Widget _buildPassword1(BuildContext context) {
+  Widget _buildIDField(BuildContext context) {
     return CustomTextFormField(
+<<<<<<< Updated upstream
       controller: passwordController1,
       hintText: "Mot de Passe encore",
       textInputAction: TextInputAction.done,
       textInputType: TextInputType.visiblePassword,
       prefix: Icon(Icons.lock, color: Colors.grey),
       obscureText: true,
+=======
+      controller: idController,
+      hintText: "Identifiant",
+      prefix: const Icon(Icons.person, color: Colors.grey),
+      prefixConstraints: const BoxConstraints(maxHeight: 40),
+>>>>>>> Stashed changes
     );
   }
 
-  Widget _buildSignUp(BuildContext context) {
+  Widget _buildConnectButton(BuildContext context) {
     return CustomElevatedButton(
-      text: "Confirmer",
+      text: "Se Connecter",
       onPressed: () {
+<<<<<<< Updated upstream
         // À faire
+=======
+        // à implémenter
+        String identifier = idController.text;
+        if (isValidIdentifier(identifier)) {
+          Navigator.pushNamed(context, AppRoutes.accueilScreen);
+        } else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text("Erreur"),
+                content: const Text("L'identifiant fourni est invalide."),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            },
+          );
+        }
+>>>>>>> Stashed changes
       },
     );
   }
 
   void onTapTxtHaveAnAccount(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.loginScreen);
+  }
+
+  bool isValidIdentifier(String identifier) {
+    // à implémenter
+    return true;
   }
 }

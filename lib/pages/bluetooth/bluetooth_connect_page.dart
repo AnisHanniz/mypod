@@ -1,5 +1,13 @@
+<<<<<<< Updated upstream
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+=======
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:permission_handler/permission_handler.dart';
+>>>>>>> Stashed changes
 
 class BluetoothConnectPage extends StatefulWidget {
   const BluetoothConnectPage({Key? key}) : super(key: key);
@@ -8,8 +16,14 @@ class BluetoothConnectPage extends StatefulWidget {
 }
 
 class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
+<<<<<<< Updated upstream
   FlutterBluePlus flutterBlue = new FlutterBluePlus();
   List<BluetoothDevice> devicesList = [];
+=======
+  FlutterBluePlus flutterBlue = FlutterBluePlus();
+  List<BluetoothDevice> devicesList = [];
+  StreamSubscription? scanSubscription;
+>>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -17,6 +31,7 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
     _initBluetooth();
   }
 
+<<<<<<< Updated upstream
   Future<void> _initBluetooth() async {
     try {
       List<BluetoothDevice> connectedDevices =
@@ -36,6 +51,41 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
       FlutterBluePlus.startScan();
     } catch (e) {
       print('Erreur lors de l\'initialisation de Bluetooth: $e');
+=======
+  @override
+  void dispose() {
+    FlutterBluePlus.stopScan();
+    scanSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _initBluetooth() async {
+    try {
+      PermissionStatus status = await Permission.bluetooth.request();
+
+      if (status.isGranted) {
+        List<BluetoothDevice> connectedDevices =
+            await FlutterBluePlus.connectedDevices;
+        setState(() {
+          devicesList = connectedDevices;
+        });
+
+        scanSubscription = FlutterBluePlus.scanResults.listen((results) {
+          for (ScanResult r in results) {
+            if (!devicesList.any((device) => device.id == r.device.id)) {
+              setState(() => devicesList.add(r.device));
+            }
+          }
+        });
+
+        FlutterBluePlus.startScan(timeout: Duration(seconds: 10));
+      } else if (status.isPermanentlyDenied) {
+      } else {
+        print('Bluetooth permission denied');
+      }
+    } catch (e) {
+      print('Error initializing Bluetooth: $e');
+>>>>>>> Stashed changes
     }
   }
 
@@ -50,7 +100,12 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
               Expanded(
                 child: Column(
                   children: <Widget>[
+<<<<<<< Updated upstream
                     Text(device.name == '' ? '(unknown device)' : device.name),
+=======
+                    Text(
+                        device.name.isEmpty ? '(unknown device)' : device.name),
+>>>>>>> Stashed changes
                     Text(device.id.toString())
                   ],
                 ),
@@ -62,7 +117,11 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
+<<<<<<< Updated upstream
                   // TODO: Implémenter la fonction de connexion
+=======
+                  // Implement the connection logic here
+>>>>>>> Stashed changes
                 },
               ),
             ],
