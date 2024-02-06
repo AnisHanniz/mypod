@@ -1,22 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mypod/utils/image_constant.dart';
-<<<<<<< Updated upstream
-
-class ResumeGeneralCard extends StatelessWidget {
-  final double lastBolus;
-  final DateTime lastBolusTime;
-  final double currentBasalRate;
-  final DateTime datechangementPod;
-
-  const ResumeGeneralCard({
-    Key? key,
-    required this.lastBolus,
-    required this.lastBolusTime,
-    required this.currentBasalRate,
-    required this.datechangementPod,
-  }) : super(key: key);
-=======
 import 'package:sqflite/sqflite.dart';
 
 class ResumeGeneralCard extends StatefulWidget {
@@ -50,7 +34,6 @@ class _ResumeGeneralCardState extends State<ResumeGeneralCard> {
       datechangementPod = DateTime.now();
     });
   }
->>>>>>> Stashed changes
 
   @override
   Widget build(BuildContext context) {
@@ -64,28 +47,12 @@ class _ResumeGeneralCardState extends State<ResumeGeneralCard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-<<<<<<< Updated upstream
-              _buildInfoRow(
-                  context, 'Dernier Bolus:', '$lastBolus units', Icons.bolt),
-              _buildInfoRow(
-                  context,
-                  'Temps:',
-                  '${DateFormat('HH:mm').format(lastBolusTime)}',
-                  Icons.access_time),
-              _buildInfoRow(context, 'Basal en cours:',
-                  '$currentBasalRate units/hour', Icons.trending_down),
-              _buildInfoRow(
-                  context,
-                  'Pod remplacé le:',
-                  '${DateFormat('yyyy-MM-dd').format(datechangementPod)}',
-=======
               _buildInfoRow(context, 'Basal en cours:', '$currentBasalRate u/h',
                   Icons.trending_down),
               _buildInfoRow(
                   context,
                   'Pod remplacé le:',
                   DateFormat('dd-MM-yyyy').format(datechangementPod),
->>>>>>> Stashed changes
                   Icons.event),
             ],
           ),
@@ -101,15 +68,6 @@ class _ResumeGeneralCardState extends State<ResumeGeneralCard> {
       child: Row(
         children: [
           Icon(icon, color: Colors.black),
-<<<<<<< Updated upstream
-          SizedBox(width: 8),
-          Text(label, style: Theme.of(context).textTheme.subtitle1),
-          Spacer(),
-          Text(value,
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-=======
           const SizedBox(width: 8),
           Text(label, style: Theme.of(context).textTheme.titleMedium),
           const Spacer(),
@@ -117,7 +75,6 @@ class _ResumeGeneralCardState extends State<ResumeGeneralCard> {
               style: Theme.of(context)
                   .textTheme
                   .titleSmall
->>>>>>> Stashed changes
                   ?.copyWith(fontWeight: FontWeight.bold)),
         ],
       ),

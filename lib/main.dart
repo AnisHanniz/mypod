@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-<<<<<<< Updated upstream
-import 'package:mypod/pages/bdd/patiens_list.dart';
-=======
 import 'package:mypod/pages/bdd/database_viewer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mypod/pages/bdd/database.dart';
->>>>>>> Stashed changes
 import 'package:mypod/pages/bluetooth/bluetooth_connect_page.dart';
 import 'package:mypod/pages/home.dart';
 import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
@@ -59,15 +55,9 @@ class MyApp extends StatelessWidget {
         AppRoutes.signupScreen: (context) =>
             FirstConnectionScreen(), // Route pour l'écran d'inscription
         AppRoutes.accueilScreen: (context) =>
-<<<<<<< Updated upstream
-            HomePage(), // Route pour l'écran d'inscription
-        AppRoutes.patientsScreen: (context) => PatientsListScreen(),
-        AppRoutes.bluetoothScreen: (context) => BluetoothConnectPage(),
-=======
             HomePage(), // Route pour l'écran d'accueil
         AppRoutes.bluetoothScreen: (context) => BluetoothConnectPage(),
         AppRoutes.databaseViewerScreen: (context) => DatabaseViewerScreen(),
->>>>>>> Stashed changes
       },
     );
   }

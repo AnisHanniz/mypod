@@ -18,10 +18,6 @@ class CustomImageView extends StatelessWidget {
   EdgeInsetsGeometry? margin;
   BorderRadius? radius;
   BoxBorder? border;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
   CustomImageView({
     this.imagePath,
     this.height,

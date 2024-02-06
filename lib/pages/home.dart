@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream
-import 'package:mypod/pages/popup_menu/popup_menu_home.dart';
-=======
 import 'package:mypod/main.dart';
 import 'package:mypod/pages/bdd/database.dart';
 import 'package:mypod/widgets/Bolus/bolus_dialogue.dart';
@@ -14,7 +11,6 @@ import 'package:sqflite/sqflite.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path/path.dart';
->>>>>>> Stashed changes
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -28,114 +24,9 @@ class _HomePageState extends State<HomePage> {
   List<InfosPod> bottomInfos = [];
   double insulinRemaining = 200.0; // À charger depuis la pompe
   Timer? _timer;
-<<<<<<< Updated upstream
-  var months = [
-    "Jan",
-    "Fev",
-    "Mar",
-    "Avr",
-    "Mai",
-    "Jun",
-    "Jul",
-    "Aou",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
-
-  // Fonction pour administrer un bolus
-  void administerBolus() {
-    // Par exemple, récupérer la quantité de bolus à administrer
-
-    double bolusAmount = 5.0;
-    // A remplacer par la valeur réelle du bolus
-    // Envoyer la commande de bolus via BluetoothManager
-
-    // Mise à jour de la quantité restante
-    setState(() {
-      insulinRemaining -= bolusAmount;
-    });
-  }
-
-  // Dialogue pour saisir la quantité du bolus
-  Future<void> showBolusInputDialog() async {
-    double bolusAmount = 0.0;
-    await showDialog<double>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Entrez la quantité du bolus'),
-          content: TextField(
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            onChanged: (value) {
-              bolusAmount = double.tryParse(value) ?? 0.0;
-            },
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(bolusAmount);
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    ).then((value) {
-      if (value != null) {
-        if (value <= 0) {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Valeur invalide'),
-                content: Text('Veuillez entrer une quantité de bolus valide.'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        } else if (insulinRemaining >= value) {
-          // Assez d'insuline, administration du bolus
-          setState(() {
-            insulinRemaining -= value;
-          });
-        } else {
-          // Pas assez d'insuline restante
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Pas assez d\'insuline restante'),
-                content: Text(
-                    'L\'insuline restante n\'est pas suffisante pour un bolus.'),
-                actions: <Widget>[
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('OK'),
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      }
-    });
-  }
-=======
   final database = DatabaseProvider();
   String nom = '';
   String prenom = '';
->>>>>>> Stashed changes
 
   void _getInfosPod(Database db) {
     // Résumé général et profil basal actif pour le haut

@@ -1,13 +1,8 @@
-<<<<<<< Updated upstream
-import 'package:flutter/material.dart';
-import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-=======
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:permission_handler/permission_handler.dart';
->>>>>>> Stashed changes
 
 class BluetoothConnectPage extends StatefulWidget {
   const BluetoothConnectPage({Key? key}) : super(key: key);
@@ -16,14 +11,9 @@ class BluetoothConnectPage extends StatefulWidget {
 }
 
 class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
-<<<<<<< Updated upstream
-  FlutterBluePlus flutterBlue = new FlutterBluePlus();
-  List<BluetoothDevice> devicesList = [];
-=======
   FlutterBluePlus flutterBlue = FlutterBluePlus();
   List<BluetoothDevice> devicesList = [];
   StreamSubscription? scanSubscription;
->>>>>>> Stashed changes
 
   @override
   void initState() {
@@ -31,27 +21,6 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
     _initBluetooth();
   }
 
-<<<<<<< Updated upstream
-  Future<void> _initBluetooth() async {
-    try {
-      List<BluetoothDevice> connectedDevices =
-          await FlutterBluePlus.connectedDevices;
-      setState(() {
-        devicesList = connectedDevices;
-      });
-      FlutterBluePlus.scanResults.listen((results) {
-        for (ScanResult r in results) {
-          if (!devicesList.contains(r.device)) {
-            setState(() => devicesList.add(r.device));
-          }
-        }
-      });
-
-      // Scan
-      FlutterBluePlus.startScan();
-    } catch (e) {
-      print('Erreur lors de l\'initialisation de Bluetooth: $e');
-=======
   @override
   void dispose() {
     FlutterBluePlus.stopScan();
@@ -85,7 +54,6 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
       }
     } catch (e) {
       print('Error initializing Bluetooth: $e');
->>>>>>> Stashed changes
     }
   }
 
@@ -100,12 +68,8 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
               Expanded(
                 child: Column(
                   children: <Widget>[
-<<<<<<< Updated upstream
-                    Text(device.name == '' ? '(unknown device)' : device.name),
-=======
                     Text(
                         device.name.isEmpty ? '(unknown device)' : device.name),
->>>>>>> Stashed changes
                     Text(device.id.toString())
                   ],
                 ),
@@ -117,11 +81,7 @@ class _BluetoothConnectPageState extends State<BluetoothConnectPage> {
                   style: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-<<<<<<< Updated upstream
-                  // TODO: Implémenter la fonction de connexion
-=======
                   // Implement the connection logic here
->>>>>>> Stashed changes
                 },
               ),
             ],

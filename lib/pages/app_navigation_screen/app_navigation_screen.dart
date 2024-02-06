@@ -39,15 +39,6 @@ class AppNavigationScreen extends StatelessWidget {
                   ),
                   _buildScreenTitle(
                     context,
-<<<<<<< Updated upstream
-                    screenTitle: "Liste des Patients",
-                    routeName: AppRoutes.patientsScreen,
-                  ),
-                  _buildScreenTitle(
-                    context,
-                    screenTitle: "Bluetooth",
-                    routeName: AppRoutes.bluetoothScreen,
-=======
                     screenTitle: "Bluetooth",
                     routeName: AppRoutes.bluetoothScreen,
                   ),
@@ -55,7 +46,6 @@ class AppNavigationScreen extends StatelessWidget {
                     context,
                     screenTitle: "État de la BDD",
                     routeName: AppRoutes.databaseViewerScreen,
->>>>>>> Stashed changes
                   ),
                 ],
               ),

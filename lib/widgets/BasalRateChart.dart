@@ -7,72 +7,6 @@ class BasalRateChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-<<<<<<< Updated upstream
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: LineChart(
-          LineChartData(
-            gridData: FlGridData(
-              show: true,
-              drawVerticalLine: true,
-              getDrawingVerticalLine: (value) {
-                return FlLine(
-                  color: Color.fromARGB(255, 61, 69, 75),
-                  strokeWidth: 1,
-                );
-              },
-              drawHorizontalLine: true,
-              getDrawingHorizontalLine: (value) {
-                return FlLine(
-                  color: Color.fromARGB(255, 61, 69, 75),
-                  strokeWidth: 1,
-                );
-              },
-              verticalInterval: 6,
-              horizontalInterval: 0.1,
-            ),
-            titlesData: FlTitlesData(
-              show: true, // Activer les titres
-              bottomTitles: SideTitles(
-                showTitles: true,
-                reservedSize: 22,
-                getTextStyles: (context, value) => const TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-                margin: 10,
-                getTitles: (value) {
-                  switch (value.toInt()) {
-                    case 0:
-                      return '0h';
-                    case 6:
-                      return '6h';
-                    case 12:
-                      return '12h';
-                    case 18:
-                      return '18h';
-                    case 24:
-                      return '24h';
-                    default:
-                      return ''; // Retourner une chaîne vide pour ne pas encombrer l'axe des x
-                  }
-                },
-              ),
-              leftTitles: SideTitles(
-                showTitles: true,
-                getTextStyles: (context, value) => const TextStyle(
-                  color: Color.fromARGB(255, 255, 255, 255),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
-                ),
-                getTitles: (value) {
-                  // Définition des titres pour l'axe des y
-                  return '${value.toStringAsFixed(1)}U';
-                },
-                reservedSize: 28,
-                margin: 10,
-=======
       child: Column(
         children: [
           Padding(
@@ -82,7 +16,6 @@ class BasalRateChart extends StatelessWidget {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
->>>>>>> Stashed changes
               ),
             ),
           ),
