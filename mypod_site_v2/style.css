@@ -1,0 +1,190 @@
+/* Reset and Variables Setup */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --primary-color: #5E35B1; /* Darker shade for better contrast */
+    --text-color: #333;
+    --background-color: #ECF0F1; /* Lighter and more modern background */
+    --form-background-color: #FFFFFF;
+    --border-radius: 10px; /* Increased radius for modern rounded corners */
+    --font-stack: 'Lato', Tahoma, Geneva, Verdana, sans-serif; /* Modern font stack */
+}
+
+body, input, button {
+    font-family: var(--font-stack);
+    color: var(--text-color);
+}
+
+/* Container & Layout */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--background-color);
+    padding: 20px; /* Add padding for mobile screens */
+}
+
+.login-form {
+    background-color: var(--form-background-color);
+    padding: 40px; /* More padding for a spacious look */
+    border-radius: var(--border-radius);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); /* Softer shadow for depth */
+    max-width: 360px; /* Slightly reduced width for focus */
+    width: 100%;
+}
+
+/* Typography */
+.login-form h1 {
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 350; /* Lighter font-weight */
+    font-size: 2rem; /* Larger font-size for impact */
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600; /* Bolder labels */
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    padding: 12px;
+    border: 2px solid #ccc; /* Thicker border for focus */
+    border-radius: var(--border-radius);
+    font-size: 1rem; /* Larger font for readability */
+}
+
+/* Icons and Buttons */
+.toggle-password {
+    width: 32px; /* Set a fixed width */
+    height: 32px; /* Set a fixed height */
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    background-color: var(--primary-color);
+    color: #FFFFFF;
+    padding: 12px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1.1rem; /* Slightly larger button text */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+button[type="submit"]:hover {
+    background-color: #7E57C2; /* Lighter purple on hover for interaction */
+}
+
+/* Footer Links */
+.form-footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.form-footer a:hover {
+    color: #7E57C2; /* Lighter purple on hover for interaction */
+}
+/* Form Elements */
+.form-group {
+    position: relative; /* Add this to position the icon relative to the form group */
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input {
+    width: 100%; /* Adjust width to be 100% */
+    padding: 12px;
+    padding-right: 44px; /* Add padding to the right to make space for the icon */
+    border: 2px solid #ccc;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+}
+
+/* Icons and Buttons */
+.toggle-password {
+    width: 32px; /* Set a fixed width */
+    height: 32px; /* Set a fixed height */
+    position: absolute;
+    right: 10px; /* Align to the right within the form group */
+    top: 36px; /* Align to the top within the form group, adjust as needed */
+    transition: all 0.3s;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .login-form {
+        padding: 20px; /* Adjust padding for smaller screens */
+    }
+
+    .form-group input {
+        padding-right: 44px; /* Ensure the icon space is maintained */
+    }
+
+    .toggle-password {
+        top: 36px; /* Adjust the top position if needed */
+    }
+}
+/* General transitions for smoother visual effects */
+*, *:before, *:after {
+    transition: background-color 0.25s ease-out, color 0.25s ease-out, transform 0.25s ease-out, opacity 0.25s ease-out;
+}
+
+/* Hover effect for all input fields */
+.form-group input:hover,
+.form-group input:focus {
+    border-color: var(--primary-color); /* Highlight the input border on hover/focus */
+    outline: none; /* Remove default focus outline */
+}
+
+/* Enhanced visual feedback on interactive elements */
+button[type="submit"],
+.form-footer a {
+    transform: translateY(0);
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+
+button[type="submit"]:active,
+.form-footer a:active {
+    transform: translateY(2px); /* Slight push effect on click */
+}
+
+/* Subtle 'breathing' effect for the primary button */
+@keyframes breathing {
+  0%, 100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2); }
+  50% { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3); }
+}
+
+button[type="submit"] {
+    animation: breathing 3s ease-in-out infinite;
+}
