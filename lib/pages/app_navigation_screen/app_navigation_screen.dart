@@ -47,6 +47,11 @@ class AppNavigationScreen extends StatelessWidget {
                     screenTitle: "État de la BDD",
                     routeName: AppRoutes.databaseViewerScreen,
                   ),
+                  _buildScreenTitle(
+                    context,
+                    screenTitle: "BDD MySQL",
+                    routeName: AppRoutes.mysqlViewerScreen,
+                  ),
                 ],
               ),
             ),

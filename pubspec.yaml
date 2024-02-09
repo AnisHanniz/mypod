@@ -24,6 +24,9 @@ dependencies:
   path_provider: ^2.1.2
   sqflite_common: ^2.5.3
   permission_handler: ^11.2.0
+  moor: ^4.6.1+1
+  moor_flutter: ^4.1.0
+  mysql1: ^0.20.0
 
 dev_dependencies:
   flutter_test:

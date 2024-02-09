@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mypod/pages/bdd/database_viewer.dart';
+import 'package:mypod/pages/bdd/mysql_viewer.dart';
+import 'package:mypod/pages/bluetooth/etat_bluetooth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mypod/pages/bdd/database.dart';
-import 'package:mypod/pages/bluetooth/bluetooth_connect_page.dart';
 import 'package:mypod/pages/home.dart';
 import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
 import 'package:mypod/pages/login_screen/login_screen.dart';
@@ -11,7 +12,6 @@ import 'package:mypod/pages/signup_screen/signup_screen.dart';
 import 'package:mypod/pages/splash_screen/splash_screen.dart';
 import 'package:mypod/utils/app_routes.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
@@ -56,8 +56,12 @@ class MyApp extends StatelessWidget {
             FirstConnectionScreen(), // Route pour l'écran d'inscription
         AppRoutes.accueilScreen: (context) =>
             HomePage(), // Route pour l'écran d'accueil
-        AppRoutes.bluetoothScreen: (context) => BluetoothConnectPage(),
-        AppRoutes.databaseViewerScreen: (context) => DatabaseViewerScreen(),
+        AppRoutes.bluetoothScreen: (context) =>
+            BluetoothState(), // Route vers la partie bluetooth
+        AppRoutes.databaseViewerScreen: (context) =>
+            DatabaseViewerScreen(), // Route pour la partie bdd locale
+        AppRoutes.mysqlViewerScreen: (context) =>
+            MySQLViewer(), // Route pour la partie bdd serveur mysql
       },
     );
   }

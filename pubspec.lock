@@ -57,6 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -65,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  drift:
+    dependency: transitive
+    description:
+      name: drift
+      sha256: "43ae515270f38ffe47702dc920c04d415894bcc6ebdf3e2b6a292cb207ed8cb7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.7.1"
   equatable:
     dependency: transitive
     description:
@@ -248,6 +264,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
@@ -272,6 +296,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  moor:
+    dependency: "direct main"
+    description:
+      name: moor
+      sha256: "3c9500ebb0996592480728a5480e020c881110597416b9f3c6f72e57212bd78c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.6.1+1"
+  moor_flutter:
+    dependency: "direct main"
+    description:
+      name: moor_flutter
+      sha256: "337babe6977103a765d01a838b5d166483eff0a6a83ad5f997761c247f428cdf"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
+  mysql1:
+    dependency: "direct main"
+    description:
+      name: mysql1
+      sha256: "68aec7003d2abc85769bafa1777af3f4a390a90c31032b89636758ff8eb839e9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.20.0"
   path:
     dependency: transitive
     description:
@@ -416,6 +464,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
+  pool:
+    dependency: transitive
+    description:
+      name: pool
+      sha256: "20fe868b6314b322ea036ba325e6fc0711a22948856475e2c2b6306e8ab39c2a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.1"
   protobuf:
     dependency: transitive
     description:
@@ -469,6 +525,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.3"
+  sqlite3:
+    dependency: transitive
+    description:
+      name: sqlite3
+      sha256: "281b672749af2edf259fc801f0fcba092257425bcd32a0ce1c8237130bc934c7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.11.2"
   stack_trace:
     dependency: transitive
     description:

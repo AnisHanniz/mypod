@@ -4,6 +4,7 @@ class AppRoutes {
   static const String signupScreen = '/signupScreen';
   static const String accueilScreen = '/home';
   static const String patientsScreen = '/patientsList';
-  static const String bluetoothScreen = '/bluetoothConnect';
+  static const String bluetoothScreen = '/etat_bluetooth';
   static const String databaseViewerScreen = '/database_viewer';
+  static const String mysqlViewerScreen = '/mysql_viewer';
 }
