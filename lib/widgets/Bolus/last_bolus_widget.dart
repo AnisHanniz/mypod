@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class LastBolusWidget extends StatefulWidget {
+  const LastBolusWidget({super.key});
+
   @override
   _LastBolusWidgetState createState() => _LastBolusWidgetState();
 }
@@ -63,21 +65,21 @@ class _LastBolusWidgetState extends State<LastBolusWidget> {
             color: Colors.grey.withOpacity(0),
             spreadRadius: 2,
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      margin: EdgeInsets.all(10.0),
+      margin: const EdgeInsets.all(10.0),
       child: Column(
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.bolt_rounded), // Icône pour la date
-              SizedBox(width: 4.0),
+              const Icon(Icons.bolt_rounded), // Icône pour la date
+              const SizedBox(width: 4.0),
               Text(
                 ' $lastBolus u',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 10.0,
                   fontWeight: FontWeight.bold,
@@ -85,15 +87,15 @@ class _LastBolusWidgetState extends State<LastBolusWidget> {
               ),
             ],
           ),
-          SizedBox(height: 8.0), // Espace entre les icônes
+          const SizedBox(height: 8.0), // Espace entre les icônes
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.calendar_today), // Icône pour la date
-              SizedBox(width: 4.0),
+              const Icon(Icons.calendar_today), // Icône pour la date
+              const SizedBox(width: 4.0),
               Text(
                 ' $dateInjection',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 10.0,
                   fontWeight: FontWeight.bold,
@@ -101,15 +103,15 @@ class _LastBolusWidgetState extends State<LastBolusWidget> {
               ),
             ],
           ),
-          SizedBox(height: 8.0), // Espace entre les icônes
+          const SizedBox(height: 8.0), // Espace entre les icônes
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.access_time), // Icône pour l'heure
-              SizedBox(width: 4.0),
+              const Icon(Icons.access_time), // Icône pour l'heure
+              const SizedBox(width: 4.0),
               Text(
                 ' $heureInjection',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 10.0,
                   fontWeight: FontWeight.bold,

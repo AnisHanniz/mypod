@@ -9,8 +9,8 @@ class BasalRateChart extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             child: Text(
               'Profil Basal Actuel',
               style: TextStyle(
@@ -19,7 +19,7 @@ class BasalRateChart extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 5), // Espace sous le titre
+          const SizedBox(height: 5), // Espace sous le titre
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -33,11 +33,11 @@ class BasalRateChart extends StatelessWidget {
 
   Widget buildLineChart() {
     final gridLine = FlLine(
-      color: Color.fromARGB(255, 61, 69, 75),
+      color: const Color.fromARGB(255, 61, 69, 75),
       strokeWidth: 1,
     );
 
-    final titlesTextStyle = TextStyle(
+    const titlesTextStyle = TextStyle(
       color: Color.fromARGB(255, 255, 255, 255),
       fontWeight: FontWeight.bold,
       fontSize: 12,

@@ -24,7 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.mypod"
-    compileSdkVersion flutter.compileSdkVersion
+    compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -45,10 +45,11 @@ android {
         applicationId "com.example.mypod"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 21
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        minSdkVersion 21
     }
 
     buildTypes {
@@ -59,7 +60,11 @@ android {
         }
     }
 }
-
+configurations.all {
+    resolutionStrategy {
+        force 'com.lib.flutter_blue_plus:flutter_blue_plus:1.31.13'  // Remplacez x.y.z par la version du plugin
+    }
+}
 flutter {
     source '../..'
 }

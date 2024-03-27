@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mypod/utils/app_constants.dart';
 import 'package:mypod/utils/app_routes.dart';
-import 'package:mypod/widgets/custom_elevated_button.dart';
-import 'package:mypod/widgets/custom_outlined_button.dart';
-import 'package:mypod/utils/image_constant.dart';
+import 'package:mypod/widgets/Custom_diWHise/custom_elevated_button.dart';
+import 'package:mypod/widgets/Custom_diWHise/custom_outlined_button.dart';
 
 class SplashScreen extends StatelessWidget {
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,28 +16,20 @@ class SplashScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'MyPod',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Image.asset(
-              ImageConstant.imageLogo,
-              height: 150,
-              width: 150,
+              AppConstants.imageLogo,
+              height: 200,
+              width: 200,
             ),
-            SizedBox(height: 60),
+            const SizedBox(height: 60),
             CustomElevatedButton(
               text: "Se Connecter",
               onPressed: () {
                 onTapLogin(context);
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             CustomOutlinedButton(
               text: "Première Connexion",
               onPressed: () {

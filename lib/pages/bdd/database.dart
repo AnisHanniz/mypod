@@ -1,6 +1,5 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider {
   static Database? _database;
@@ -18,11 +17,6 @@ class DatabaseProvider {
       version: 1,
       onCreate: (Database db, int version) async {
         await createLoginsTable(db);
-        await createNotificationsEtRappelsTable(db);
-        await createHistoriqueInjectionsBolusTable(db);
-        await createProfilsBasauxTemporairesTable(db);
-        await createLogsConnexionPodsTable(db);
-        await createUtilisateurParamsTable(db);
       },
     );
     return _database!;
@@ -468,5 +462,16 @@ class DatabaseProvider {
       Database db, String tableName, String createSQL) async {
     await db.execute(createSQL);
     print('Table "$tableName" créée ou déjà existante');
+  }
+
+  // Méthode pour récupérer l'e-mail de l'utilisateur depuis la base de données locale
+  Future<String?> getUserEmail() async {
+    final db = await initDB();
+    final utilisateurParams = await db.query('utilisateur_params');
+    if (utilisateurParams.isNotEmpty) {
+      return utilisateurParams[0]['email'] as String?;
+    } else {
+      return null;
+    }
   }
 }

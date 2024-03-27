@@ -1,32 +1,38 @@
 import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mypod/main.dart';
+import 'package:intl/intl.dart';
 import 'package:mypod/pages/bdd/database.dart';
+import 'package:mypod/pages/bluetooth/pod_dialog.dart';
+import 'package:mypod/utils/AppState.dart';
 import 'package:mypod/widgets/Bolus/bolus_dialogue.dart';
-import 'package:mypod/widgets/Bolus/last_bolus_widget.dart';
 import 'package:mypod/widgets/PopupMenu/popup_menu_home.dart';
 import 'package:mypod/widgets/infos_pod.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:path/path.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final AppState appState = AppState();
   List<InfosPod> topInfos = [];
   List<InfosPod> bottomInfos = [];
-  double insulinRemaining = 200.0; // À charger depuis la pompe
   Timer? _timer;
   final database = DatabaseProvider();
-  String nom = '';
-  String prenom = '';
+
+  final StreamController<void> _refreshController =
+      StreamController<void>.broadcast();
+
+  void _sendRefreshNotification() {
+    _refreshController.add(null);
+  }
 
   void _getInfosPod(Database db) {
     // Résumé général et profil basal actif pour le haut
@@ -48,8 +54,45 @@ class _HomePageState extends State<HomePage> {
     _initializeData();
     initializeAsyncData().then((_) {
       if (mounted) {
-        setState(() {});
+        setState(() {
+          appState.isConnectedToPump = checkConnectionStatus();
+          if (!appState.isConnectedToPump) {
+            appState.insulinRemaining = 0;
+          } else {
+            updateInsulinRemainingFromBluetooth();
+            updateConnectionStatus(checkConnectionStatus());
+          }
+        });
       }
+    });
+    updateConnectionStatus(checkConnectionStatus());
+    _refreshController.stream.listen((_) {
+      updateConnectionStatus(checkConnectionStatus());
+    });
+  }
+
+  bool checkConnectionStatus() {
+    return appState.isConnectedToPump;
+  }
+
+  void updateInsulinRemainingFromBluetooth() async {
+    try {
+      double insulinValue = AppState().insulinRemaining;
+      if (mounted) {
+        setState(() {
+          appState.insulinRemaining = insulinValue;
+        });
+      }
+      _sendRefreshNotification(); // Envoyer une notification de rafraîchissement
+    } catch (e) {
+      print(
+          'Erreur lors de la mise à jour du taux d\'insuline (Bluetooth): $e');
+    }
+  }
+
+  void updateConnectionStatus(bool isConnected) {
+    setState(() {
+      appState.isConnectedToPump = isConnected;
     });
   }
 
@@ -57,10 +100,9 @@ class _HomePageState extends State<HomePage> {
     final utilisateurParams =
         await DatabaseProvider().readUtilisateurParams(database);
     if (utilisateurParams != null) {
-      // Les données de l'utilisateur sont disponibles, mettez à jour l'état de la page
       setState(() {
-        nom = utilisateurParams['nom'];
-        prenom = utilisateurParams['prenom'];
+        appState.nom = utilisateurParams['nom'];
+        appState.prenom = utilisateurParams['prenom'];
       });
     } else {
       // Les données de l'utilisateur n'ont pas été trouvées, vous pouvez gérer ce cas
@@ -81,34 +123,46 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> initPathProvider() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    await getApplicationDocumentsDirectory();
+  }
+
   Future<void> initializeAsyncData() async {
     await initPathProvider();
     final databaseProvider = DatabaseProvider();
     final database = await databaseProvider.initDB();
     _getInfosPod(database);
 
-    const interval = Duration(minutes: 5);
-    _timer = Timer.periodic(interval, (Timer t) {
+    const interval = Duration(seconds: 5);
+    _timer = Timer.periodic(interval, (Timer t) async {
       if (mounted) {
-        final basalInsulin = 0; // À remplacer avec les valeurs réelles
-        setState(() {
-          insulinRemaining -= basalInsulin;
-        });
+        const basalInsulin = 0;
+        try {
+          double currentInsulin = appState.insulinRemaining;
+          setState(() {
+            appState.insulinRemaining = currentInsulin - basalInsulin;
+            updateInsulinRemainingFromBluetooth();
+          });
+        } catch (e) {
+          print('Error updating insulin remaining: $e');
+        }
       }
     });
   }
 
   @override
   void dispose() {
-    _timer?.cancel(); // Annule le Timer lorsque le widget est détruit
+    _timer?.cancel();
+    _refreshController.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final controller = PageController(viewportFraction: 0.8);
+    final appState = Provider.of<AppState>(context);
     return Scaffold(
-      appBar: appBar(),
+      appBar: appBar(context),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Column(
         children: [
@@ -127,7 +181,7 @@ class _HomePageState extends State<HomePage> {
           ),
           Container(
             height: 180,
-            margin: EdgeInsets.all(15),
+            margin: const EdgeInsets.all(15),
             child: ListView.separated(
               scrollDirection: Axis.horizontal,
               itemCount: topInfos.length,
@@ -136,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                 InfosPod info = topInfos[index];
                 if (info.widget != null) {
                   return Container(
-                    width: 300,
+                    width: 340,
                     decoration: BoxDecoration(
                       color: info.boxColor.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(15),
@@ -173,7 +227,7 @@ class _HomePageState extends State<HomePage> {
                             if (info.widget != null)
                               info.widget!
                             else
-                              SizedBox.shrink(),
+                              const SizedBox.shrink(),
                             Text(
                               info.name,
                               style: const TextStyle(
@@ -203,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                 return Container(
                   padding: const EdgeInsets.all(5.0),
                   margin: const EdgeInsets.all(5),
-                  width: 160,
+                  width: 200,
                   decoration: BoxDecoration(
                     color: info.boxColor.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(15),
@@ -231,52 +285,46 @@ class _HomePageState extends State<HomePage> {
           Container(
             alignment: Alignment.bottomCenter,
             margin: const EdgeInsets.all(20),
-            child: InkWell(
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return BolusInputDialog(
-                      insulinRemaining: insulinRemaining,
-                      updateInsulinRemaining: (double value) {
-                        // Mettez à jour la valeur de l'insulinRemaining ici
-                      },
-                    );
-                  },
-                );
-              },
-              child: Container(
-                width: 75,
-                height: 75,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9),
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color:
-                          const Color.fromARGB(255, 0, 0, 0).withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      CupertinoIcons.lab_flask_solid,
+            child: ElevatedButton(
+              onPressed: appState.isConnectedToPump
+                  ? () async {
+                      double insulinValue = appState.insulinRemaining;
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return BolusInputDialog(
+                            insulinRemaining: insulinValue,
+                            updateInsulinRemaining: (double value) async {
+                              updateInsulinRemainingFromBluetooth();
+                            },
+                          );
+                        },
+                      );
+                    }
+                  : null,
+              style: ElevatedButton.styleFrom(
+                shape: const CircleBorder(),
+                backgroundColor: appState.isConnectedToPump
+                    ? const Color.fromARGB(255, 0, 0, 0).withOpacity(0.9)
+                    : Colors.grey,
+                padding: const EdgeInsets.all(22),
+                elevation: appState.isConnectedToPump ? 5 : 0,
+              ),
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    CupertinoIcons.lab_flask_solid,
+                    color: Colors.white,
+                    size: 30,
+                  ),
+                  Text(
+                    'Bolus',
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 30,
                     ),
-                    Text(
-                      'Bolus',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -284,7 +332,7 @@ class _HomePageState extends State<HomePage> {
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(bottom: 2),
             child: const Text(
-              'Version 0.3.0',
+              'Version 0.7',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -296,34 +344,41 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  AppBar appBar() {
+  AppBar appBar(BuildContext context) {
     final currentDate = DateTime.now();
-    final formattedDate = DateFormat.MMM('fr').format(
-        currentDate); // Format court pour le nom du mois en français (ex: janv, févr, ...)
-
+    final formattedDate = DateFormat.MMM('fr').format(currentDate);
+    final appState = Provider.of<AppState>(context);
     return AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(
-            children: [
-              Icon(
-                CupertinoIcons.lab_flask_solid, // Icône
-                color: Color.fromARGB(255, 0, 0, 0),
-              ),
-              SizedBox(width: 10), // Espace entre l'icône et le texte
-              Text(
-                insulinRemaining
-                    .toString(), // Conversion en chaîne de caractères
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+          !appState.isConnectedToPump
+              ? ElevatedButton(
+                  onPressed: () {
+                    showChangePodDialog(context, launchBluetoothState);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
+                  ),
+                  child: const Text('Connecter Pod'),
+                )
+              : Row(
+                  children: [
+                    const Icon(CupertinoIcons.lab_flask_solid,
+                        color: Color.fromARGB(255, 0, 0, 0)),
+                    const SizedBox(width: 15),
+                    Text(
+                      "${appState.insulinRemaining.toString()} U",
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
           Text(
-            '${DateTime.now().day} $formattedDate', // Utilisation du mois formaté en français
+            '${currentDate.day} $formattedDate',
             style: const TextStyle(
               color: Colors.black,
               fontSize: 18,
@@ -335,120 +390,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       elevation: 0.0,
       centerTitle: false,
-      actions: [
+      actions: const [
         MyPopupMenu(),
       ],
-    );
-  }
-}
-
-class LastBolusWidget extends StatefulWidget {
-  @override
-  _LastBolusWidgetState createState() => _LastBolusWidgetState();
-}
-
-class _LastBolusWidgetState extends State<LastBolusWidget> {
-  String lastBolus = 'Aucun bolus enregistré';
-  String dateInjection = '';
-  String heureInjection = '';
-
-  @override
-  void initState() {
-    super.initState();
-    getLastBolusFromDatabase(); // Appel de la fonction pour récupérer le dernier bolus
-  }
-
-  Future<void> getLastBolusFromDatabase() async {
-    try {
-      Database database = await openDatabase(
-        join(await getDatabasesPath(), 'local.db'),
-      );
-
-      final List<Map<String, dynamic>> results = await database.query(
-        'historique_injections_bolus',
-        orderBy: 'date_injection DESC, heure_injection DESC',
-        limit: 1,
-      );
-
-      if (results.isNotEmpty) {
-        setState(() {
-          lastBolus = results[0]['dose'].toString();
-          dateInjection = results[0]['date_injection'];
-          heureInjection = results[0]['heure_injection'];
-        });
-      } else {}
-    } catch (e) {
-      print('Erreur lors de la récupération du dernier bolus : $e');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(8.0),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.2),
-            spreadRadius: 2,
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      margin: EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.bolt_rounded), // Icône pour la date
-              SizedBox(width: 4.0),
-              Text(
-                '$lastBolus unités',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 10.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.0), // Espace entre les icônes
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.calendar_today), // Icône pour la date
-              SizedBox(width: 4.0),
-              Text(
-                'le $dateInjection',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 10.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 8.0), // Espace entre les icônes
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.access_time), // Icône pour l'heure
-              SizedBox(width: 4.0),
-              Text(
-                'à $heureInjection',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 10.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

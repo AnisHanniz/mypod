@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mypod/pages/bdd/database_viewer.dart';
-import 'package:mypod/pages/bdd/mysql_viewer.dart';
-import 'package:mypod/pages/bluetooth/etat_bluetooth.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:mypod/pages/bdd/database.dart';
-import 'package:mypod/pages/home.dart';
-import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
-import 'package:mypod/pages/login_screen/login_screen.dart';
-import 'package:mypod/pages/signup_screen/signup_screen.dart';
-import 'package:mypod/pages/splash_screen/splash_screen.dart';
-import 'package:mypod/utils/app_routes.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:mypod/pages/app_navigation_screen/app_navigation_screen.dart';
+import 'package:mypod/pages/bdd/api_testeur.dart';
+import 'package:mypod/pages/bdd/database.dart';
+import 'package:mypod/pages/bdd/database_viewer.dart';
+import 'package:mypod/pages/bluetooth/new_bluetooth.dart';
+import 'package:mypod/pages/home.dart';
+import 'package:mypod/pages/login_screen/login_screen.dart';
+import 'package:mypod/pages/premiere_connexion/premiere_connexion.dart';
+import 'package:mypod/pages/splash_screen/splash_screen.dart';
+import 'package:mypod/utils/AppState.dart';
+import 'package:mypod/utils/app_routes.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,10 @@ void main() async {
   final database = await databaseProvider.initDB();
   initializeDateFormatting('fr', null);
   runApp(
-    MyApp(database),
+    ChangeNotifierProvider<AppState>(
+      create: (context) => AppState(),
+      child: MyApp(database),
+    ),
   );
 }
 
@@ -37,31 +42,23 @@ Future<void> initPathProvider() async {
 class MyApp extends StatelessWidget {
   final Database database;
 
-  const MyApp(this.database, {Key? key}) : super(key: key);
+  const MyApp(this.database, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: 'Poppins'),
-      initialRoute: '/', // Définissez votre route initiale si nécessaire
+      initialRoute: '/',
       routes: {
-        '/': (context) =>
-            AppNavigationScreen(), // Route pour votre écran de navigation
-        AppRoutes.splashScreen: (context) =>
-            SplashScreen(), // Route pour l'écran de splash
-        AppRoutes.loginScreen: (context) =>
-            LoginScreen(), // Route pour l'écran de connexion
-        AppRoutes.signupScreen: (context) =>
-            FirstConnectionScreen(), // Route pour l'écran d'inscription
-        AppRoutes.accueilScreen: (context) =>
-            HomePage(), // Route pour l'écran d'accueil
-        AppRoutes.bluetoothScreen: (context) =>
-            BluetoothState(), // Route vers la partie bluetooth
-        AppRoutes.databaseViewerScreen: (context) =>
-            DatabaseViewerScreen(), // Route pour la partie bdd locale
-        AppRoutes.mysqlViewerScreen: (context) =>
-            MySQLViewer(), // Route pour la partie bdd serveur mysql
+        '/': (context) => const AppNavigationScreen(),
+        AppRoutes.splashScreen: (context) => const SplashScreen(),
+        AppRoutes.loginScreen: (context) => const LoginScreen(),
+        AppRoutes.signupScreen: (context) => FirstConnectionScreen(),
+        AppRoutes.accueilScreen: (context) => const HomePage(),
+        AppRoutes.databaseViewerScreen: (context) => DatabaseViewerScreen(),
+        AppRoutes.apiTesteur: (context) => const ApiTester(),
+        AppRoutes.allBLuetooth: (context) => const FlutterBlueApp(),
       },
     );
   }

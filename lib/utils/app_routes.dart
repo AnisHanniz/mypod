@@ -6,5 +6,6 @@ class AppRoutes {
   static const String patientsScreen = '/patientsList';
   static const String bluetoothScreen = '/etat_bluetooth';
   static const String databaseViewerScreen = '/database_viewer';
-  static const String mysqlViewerScreen = '/mysql_viewer';
+  static const String apiTesteur = '/api_testeur';
+  static const String allBLuetooth = '/new_bluetooth';
 }

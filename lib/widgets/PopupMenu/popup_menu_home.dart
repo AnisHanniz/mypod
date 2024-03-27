@@ -1,32 +1,67 @@
 import 'package:flutter/material.dart';
-import 'package:mypod/widgets/PopupMenu/basal_temp_page.dart';
-import 'package:mypod/widgets/PopupMenu/pod_page.dart';
+import 'package:mypod/widgets/PopupMenu/popup_about.dart';
+import 'package:mypod/widgets/PopupMenu/popup_basal_temp.dart';
+import 'package:mypod/widgets/PopupMenu/popup_historique.dart';
+import 'package:mypod/widgets/PopupMenu/popup_infos_perso.dart';
+import 'package:mypod/widgets/PopupMenu/popup_pod.dart';
 
 class MyPopupMenu extends StatelessWidget {
+  const MyPopupMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
       onSelected: (value) {
-        // Action à effectuer lorsque le menu est sélectionné
         if (value == 'menu_basal_temp') {
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  BasalTempPage(), // Naviguer vers BasalTempPage
+                  const BasalTempPage(), // Naviguer vers BasalTempPage
+            ),
+          );
+        } else if (value == 'menu_infos_perso') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const InfosPerso(), // Naviguer vers InfoPersoPage
             ),
           );
         } else if (value == 'menu_pod') {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PodPage(), // Naviguer vers PodPage
+              builder: (context) => const PodPage(), // Naviguer vers PodPage
+            ),
+          );
+        } else if (value == 'menu_historique') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const Historique(), // Naviguer vers Historique
+            ),
+          );
+        } else if (value == 'menu_about') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  const PopupAbout(), // Naviguer vers Historique
             ),
           );
         }
       },
       itemBuilder: (BuildContext context) {
         return <PopupMenuEntry<String>>[
+          const PopupMenuItem<String>(
+            value: 'menu_infos_perso',
+            child: ListTile(
+              leading: Icon(Icons.person),
+              title: Text('Informations Personnelles'),
+            ),
+          ),
           const PopupMenuItem<String>(
             value: 'menu_basal_temp',
             child: ListTile(
@@ -48,7 +83,7 @@ class MyPopupMenu extends StatelessWidget {
               title: Text('Suspendre Admin. Insuline'),
             ),
           ),
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'menu_prog_basaux',
             child: ListTile(
               leading: Icon(Icons.schema_rounded),
@@ -74,6 +109,13 @@ class MyPopupMenu extends StatelessWidget {
             child: ListTile(
               leading: Icon(Icons.settings),
               title: Text('Réglages'),
+            ),
+          ),
+          const PopupMenuItem<String>(
+            value: 'menu_about',
+            child: ListTile(
+              leading: Icon(Icons.info),
+              title: Text('À propos'),
             ),
           ),
         ];

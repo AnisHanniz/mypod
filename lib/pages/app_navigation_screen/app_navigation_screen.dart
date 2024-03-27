@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mypod/utils/app_constants.dart';
 import 'package:mypod/utils/app_routes.dart';
-import 'package:mypod/utils/image_constant.dart';
 
 class AppNavigationScreen extends StatelessWidget {
-  const AppNavigationScreen({Key? key}) : super(key: key);
+  const AppNavigationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0XFFFFFFFF),
+      backgroundColor: const Color(0XFFFFFFFF),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,18 +39,18 @@ class AppNavigationScreen extends StatelessWidget {
                   ),
                   _buildScreenTitle(
                     context,
-                    screenTitle: "Bluetooth",
-                    routeName: AppRoutes.bluetoothScreen,
-                  ),
-                  _buildScreenTitle(
-                    context,
-                    screenTitle: "État de la BDD",
+                    screenTitle: "BDD Locale",
                     routeName: AppRoutes.databaseViewerScreen,
                   ),
                   _buildScreenTitle(
                     context,
-                    screenTitle: "BDD MySQL",
-                    routeName: AppRoutes.mysqlViewerScreen,
+                    screenTitle: "Testeur API",
+                    routeName: AppRoutes.apiTesteur,
+                  ),
+                  _buildScreenTitle(
+                    context,
+                    screenTitle: "Bluetooth",
+                    routeName: AppRoutes.allBLuetooth,
                   ),
                 ],
               ),
@@ -63,29 +63,18 @@ class AppNavigationScreen extends StatelessWidget {
 
   Widget _buildAppNavigation(BuildContext context) {
     return Container(
-      color: Color(0XFFFFFFFF),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      color: const Color(0XFFFFFFFF),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            "MyPod",
-            style: TextStyle(
-              color: Color(0XFF000000),
-              fontSize: 20,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(height: 10),
           Image.asset(
-            ImageConstant.imageLogo,
-            height: 42,
-            width: 115,
+            AppConstants.imageLogo,
+            height: 160,
+            width: 400,
           ),
-          SizedBox(height: 10),
-          Text(
-            "Navigation DEMO",
+          const Text(
+            "Menu Debug",
             style: TextStyle(
               color: Color(0XFF888888),
               fontSize: 16,
@@ -93,7 +82,7 @@ class AppNavigationScreen extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          Divider(
+          const Divider(
             height: 1,
             thickness: 1,
             color: Color(0XFF000000),
@@ -113,21 +102,21 @@ class AppNavigationScreen extends StatelessWidget {
         Navigator.pushNamed(context, routeName);
       },
       child: Container(
-        color: Color(0XFFFFFFFF),
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        color: const Color(0XFFFFFFFF),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               screenTitle,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0XFF000000),
                 fontSize: 20,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w400,
               ),
             ),
-            Divider(
+            const Divider(
               height: 1,
               thickness: 1,
               color: Color(0XFF888888),

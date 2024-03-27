@@ -1,0 +1,21 @@
+ssh administrateur@10.130.163.89
+WA49ruyh333PLt8m
+
+
+     * VM pour Dev :
+         - FQDN: srv-dpi-proj-adgm.univ-rouen.fr
+         - IP: 10.130.163.89
+         - Login: administrateur
+         - Mdp: WA49ruyh333PLt8m
+         - OS: Ubuntu Server 22.04 LTS
+
+
+mysql : 
+
+
+sudo mysql 
+mysql -u appli -p
+appli
+
+
+GRANT ALL PRIVILEGES ON *.* TO 'appli'@'10.0.83.223' IDENTIFIED BY 'appli';

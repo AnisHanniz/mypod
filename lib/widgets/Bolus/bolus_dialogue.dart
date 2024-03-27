@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:mypod/pages/bdd/database.dart';
 import 'package:mypod/pages/home.dart';
+import 'package:mypod/utils/AppState.dart';
+import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class BolusInputDialog extends StatefulWidget {
   final double insulinRemaining;
-  final Function(double) updateInsulinRemaining;
 
-  BolusInputDialog({
+  const BolusInputDialog({
+    super.key,
     required this.insulinRemaining,
-    required this.updateInsulinRemaining,
+    required Future<Null> Function(double value) updateInsulinRemaining,
   });
 
   @override
@@ -21,9 +23,10 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
   double bolusAmount = 0.0;
   bool bolusInProgress = false;
   double bolusProgress = 0.0;
-  final double bolusSpeed = 0.1; // Vitesse du bolus (à ajuster)
+  final double bolusSpeed = 0.2; // Vitesse du bolus (à ajuster)
 
   Database? db;
+
   @override
   void initState() {
     super.initState();
@@ -36,23 +39,28 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppState>(context);
     return AlertDialog(
       title: const Text('Entrez la quantité', textAlign: TextAlign.center),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            onChanged: (value) {
-              bolusAmount = double.tryParse(value) ?? 0.0;
-            },
-          ),
-          if (bolusInProgress)
-            LinearProgressIndicator(
-              value: bolusProgress,
-              minHeight: 10,
+      content: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (value) {
+                bolusAmount = double.tryParse(value) ?? 0.0;
+              },
             ),
-        ],
+            if (bolusInProgress)
+              LinearProgressIndicator(
+                value: bolusProgress,
+                minHeight: 10,
+              ),
+          ],
+        ),
       ),
       actions: <Widget>[
         Center(
@@ -64,7 +72,7 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Annuler'),
+                child: const Text('Annuler'),
               ),
               TextButton(
                 onPressed: bolusInProgress
@@ -75,10 +83,10 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
                         } else if (bolusAmount > widget.insulinRemaining) {
                           _showInsufficientInsulinDialog();
                         } else {
-                          _startBolus();
+                          _startBolus(appState);
                         }
                       },
-                child: Text('OK'),
+                child: const Text('OK'),
               ),
             ],
           ),
@@ -92,14 +100,14 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Valeur invalide'),
-          content: Text('Veuillez entrer une quantité de bolus valide.'),
+          title: const Text('Valeur invalide'),
+          content: const Text('Veuillez entrer une quantité de bolus valide.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -112,15 +120,15 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Pas assez d\'insuline restante'),
-          content:
-              Text('L\'insuline restante n\'est pas suffisante pour un bolus.'),
+          title: const Text('Pas assez d\'insuline restante'),
+          content: const Text(
+              'L\'insuline restante n\'est pas suffisante pour un bolus.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );
@@ -128,7 +136,7 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
     );
   }
 
-  void _startBolus() async {
+  void _startBolus(AppState appState) async {
     if (db == null) {
       // Gestion cas où la base de données n'est pas initialisée
       print("La base de données n'est pas initialisée correctement.");
@@ -170,7 +178,7 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
           quantiteInjectee,
         );
 
-        widget.updateInsulinRemaining(targetRemaining);
+        appState.updateInsulinRemaining(targetRemaining);
 
         // Fermer la boîte de dialogue
         Navigator.of(context).pop();
@@ -178,7 +186,7 @@ class _BolusInputDialogState extends State<BolusInputDialog> {
         // Redirection vers la page d'accueil (HomePage)
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => const HomePage(),
           ),
         );
       }

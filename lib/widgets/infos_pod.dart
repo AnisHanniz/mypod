@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mypod/widgets/BasalRateChart.dart';
-import 'package:mypod/pages/state_pod.dart';
 import 'package:mypod/widgets/Bolus/last_bolus_widget.dart';
 import 'package:mypod/widgets/resume_general.dart';
+import 'package:mypod/widgets/state_pod.dart';
 import 'package:sqflite/sqflite.dart';
 
 class InfosPod {
@@ -23,7 +23,7 @@ class InfosPod {
       children: [
         Text(
           name,
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
       ],
     );
@@ -36,8 +36,8 @@ class InfosPod {
       case 0:
         infos.add(InfosPod(
           name: 'Résumé Général',
-          boxColor: Color.fromARGB(255, 143, 26, 253),
-          database: db, // Pass the database object here
+          boxColor: const Color.fromARGB(255, 143, 26, 253),
+          database: db,
           widget: ResumeGeneralCard(database: db),
         ));
         break;
@@ -45,8 +45,8 @@ class InfosPod {
       case 1:
         infos.add(InfosPod(
           name: '',
-          boxColor: Color.fromARGB(255, 143, 26, 253),
-          widget: BasalRateChart(),
+          boxColor: const Color.fromARGB(255, 143, 26, 253),
+          widget: const BasalRateChart(),
           database: db,
         ));
         break;
@@ -54,18 +54,15 @@ class InfosPod {
       case 2:
         infos.add(InfosPod(
             name: 'État du pod',
-            boxColor: Color.fromARGB(255, 143, 26, 253),
-            widget: StatePod(
-              isConnected:
-                  true, // 'isBluetoothConnected' est une variable booléenne représentant l'état de la connexion
-            ),
+            boxColor: const Color.fromARGB(255, 143, 26, 253),
+            widget: const StatePod(),
             database: db));
         break;
       case 3:
         infos.add(InfosPod(
           name: 'Dernier Bolus',
-          boxColor: Color.fromARGB(255, 143, 26, 253),
-          widget: LastBolusWidget(),
+          boxColor: const Color.fromARGB(255, 143, 26, 253),
+          widget: const LastBolusWidget(),
           database: db,
         ));
         break;

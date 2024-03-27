@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mypod/utils/image_constant.dart';
 import 'package:sqflite/sqflite.dart';
 
 class ResumeGeneralCard extends StatefulWidget {

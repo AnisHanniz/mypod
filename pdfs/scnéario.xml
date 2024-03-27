@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<indexing>
+ <paragraph index="6" node_type="writer">Scénario MyPod</paragraph>
+ <paragraph index="9" node_type="writer">	</paragraph>
+ <paragraph index="17" node_type="writer">Site Web (pour les médecins) : </paragraph>
+ <paragraph index="19" node_type="writer">Le Dr André, un médecin diabétologue, utilise la plateforme en ligne &quot;MyPod&quot; pour gérer efficacement ses patients diabétiques. Voici comment il interagit avec le site :</paragraph>
+ <paragraph index="21" node_type="writer">1. Connexion au site :</paragraph>
+ <paragraph index="23" node_type="writer">   - Le Dr André se rend sur le site web de MyPod via un navigateur web.</paragraph>
+ <paragraph index="24" node_type="writer">   - S'il n'est pas inscrit, il accède à la page d'accueil puis la page d’inscription où il saisit les informations nécéssaires pour faire une demande auprès des administrateurs du site, qui décideront si oui ou non sa demande est acceptée.</paragraph>
+ <paragraph index="25" node_type="writer">   - S'il n'est pas déjà connecté, il accède à la page d'accueil où il saisit son adresse e-mail et son mot de passe.</paragraph>
+ <paragraph index="26" node_type="writer">   - Après avoir entré ses informations, il clique sur le bouton &quot;Connexion&quot;.</paragraph>
+ <paragraph index="28" node_type="writer">2. Accès à son compte :</paragraph>
+ <paragraph index="30" node_type="writer">   - Une fois connecté, le Dr André est redirigé vers son tableau de bord personnel sur la plateforme MyPod.</paragraph>
+ <paragraph index="31" node_type="writer">   - Sur son tableau de bord, il trouve une liste détaillée de ses patients diabétiques ainsi que des statistiques pertinentes.</paragraph>
+ <paragraph index="33" node_type="writer">3. Gestion des patients :</paragraph>
+ <paragraph index="35" node_type="writer">   - Le Dr André peut sélectionner le nom d'un patient pour accéder à son profil.</paragraph>
+ <paragraph index="36" node_type="writer">   - Dans le profil de chaque patient, il peut consulter les données médicales essentielles, telles que les informations personnelles, les traitements en cours (profils basaux) et les historiques d'injections d'insuline (injections bolus) avec les dates de modification associées.</paragraph>
+ <paragraph index="38" node_type="writer">4. Mise à jour des informations :</paragraph>
+ <paragraph index="40" node_type="writer">   - Le médecin a la possibilité de mettre à jour les données de ses patients, d'ajouter de nouvelles informations et d'enregistrer les modifications apportées à leur traitement.</paragraph>
+ <paragraph index="43" node_type="writer">5. Déconnexion :</paragraph>
+ <paragraph index="44" node_type="writer">   - Une fois la gestion des patients terminée, le Dr André peut choisir de se déconnecter en cliquant sur le lien &quot;Déconnexion&quot; situé dans le menu de navigation.</paragraph>
+ <paragraph index="46" node_type="writer">---</paragraph>
+ <paragraph index="48" node_type="writer">Application Mobile (pour les patients) : </paragraph>
+ <paragraph index="50" node_type="writer">Le Dr André, le diabétologue de Leila, l'introduit à la nouvelle application de gestion du diabète, &quot;MyPod&quot;. Leila est enregistrée en tant que patiente.</paragraph>
+ <paragraph index="52" node_type="writer">Leila utilise désormais l'application MyPod pour gérer son traitement du diabète. Voici comment il interagit avec le site :</paragraph>
+ <paragraph index="54" node_type="writer">Le Dr André configure le profil de Leila sur le site web &quot;mypod_site&quot;, générant un identifiant unique pour sa première connexion. Une fois de retour chez elle, Leila installe l'application sur son téléphone.</paragraph>
+ <paragraph index="56" node_type="writer">Lors de sa première utilisation, elle saisit l'identifiant fourni par son médecin, synchronisant ainsi les profils basaux établis. Elle complète donc ses informations personnelles. </paragraph>
+ <paragraph index="58" node_type="writer">L’application crée une base de données locale sur son téléphone pour stocker les paramètres de l'application et l'historique des bolus puis le transférer au serveur MyPod.</paragraph>
+ <paragraph index="60" node_type="writer">Intéraction avec la pompe (MyPod-Pod): </paragraph>
+ <paragraph index="62" node_type="writer">Le profil de Leila est chargé sur l’application, il faut maintenant installer une pompe (Un Pod). </paragraph>
+ <paragraph index="64" node_type="writer">La pompe doit etre réinitialisée (date d’expiration), puis chargée (Insuline restante) et ensuite installée.</paragraph>
+ <paragraph index="66" node_type="writer">La pompe est maintenant prête.</paragraph>
+ <paragraph index="68" node_type="writer">Menu → Pod → Installer un Pod → Scanner les périphériques → Séléctionner la pompe</paragraph>
+ <paragraph index="70" node_type="writer">Le soir, avant son dinner, Leila a besoin d'un bolus d'insuline. Elle utilise l'application MyPod pour envoyer la commande à sa pompe via Bluetooth. </paragraph>
+ <paragraph index="72" node_type="writer">Par le menu, elle peut ajuster temporairement son taux basal en fonction de ses activités quotidiennes, lorsqu'elle prévoit de faire de l'exercice.</paragraph>
+ <paragraph index="74" node_type="writer">Après l'administration du bolus, Leila consulte l'&quot;Historique d'injections&quot; pour vérifier la quantité d'insuline injectée. </paragraph>
+ <paragraph index="76" node_type="writer">Elle vérifie également les &quot;Programmes Basaux&quot; pour s'assurer de la programmation correcte des profils basaux pour les jours à venir.</paragraph>
+ <paragraph index="78" node_type="writer">Leila peut utiliser le menu pour sélectionner &quot;Suspendre Admin. Insuline&quot; en cas d’urgence. Elle utilise également les fonctionnalités &quot;Rappels&quot; pour ne pas oublier ses injections et &quot;Réglages&quot; pour personnaliser l'application selon ses besoins.</paragraph>
+</indexing>
